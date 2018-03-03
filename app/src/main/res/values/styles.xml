@@ -1,0 +1,58 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="Movie_Poster" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/movie_poster_height</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="Movie_Title" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/textSize_title</item>
+        <item name="android:textColor">@color/color_title</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:padding">@dimen/padding_small</item>
+    </style>
+
+    <style name="Linear_Layout" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingTop">@dimen/padding_medium</item>
+        <item name="android:paddingLeft">@dimen/padding_medium</item>
+        <item name="android:paddingRight">@dimen/padding_medium</item>
+    </style>
+
+    <style name="Movie_Release_Date_and_Movie_Vote_Average" >
+        <item name="android:layout_width">@dimen/textView_width</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/textSize_medium</item>
+        <item name="android:textColor">@color/color_movie_release_date_and_color_movie_vote_average</item>
+    </style>
+
+    <style name="Movie_Release_Date_Content_and_Movie_Vote_Average_Content" >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/textSize_small</item>
+        <item name="android:textColor">@color/color_movie_release_date_content_and_color_movie_vote_average_content</item>
+    </style>
+
+    <style name="Movie_Plot_Synopsis" >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/textSize_small</item>
+        <item name="android:textColor">@color/color_movie_plot_synopsis</item>
+        <item name="android:layout_marginTop">@dimen/padding_medium</item>
+        <item name="android:padding">@dimen/padding_medium</item>
+    </style>
+
+</resources>

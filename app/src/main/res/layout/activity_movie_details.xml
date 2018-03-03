@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fillViewport="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/detail_screen_background_color"
+    tools:context="com.example.android.popularmovies.MovieDetailsActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/movie_poster"
+            style="@style/Movie_Poster"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/movie_poster"/>
+
+        <TextView
+            android:id="@+id/movie_title"
+            style="@style/Movie_Title" />
+
+        <LinearLayout
+            style="@style/Linear_Layout">
+
+            <TextView
+                android:id="@+id/movie_release_date"
+                style="@style/Movie_Release_Date_and_Movie_Vote_Average" />
+
+            <TextView
+                android:id="@+id/movie_release_date_content"
+                style="@style/Movie_Release_Date_Content_and_Movie_Vote_Average_Content"
+                android:text="@string/release_date"/>
+
+            </LinearLayout>
+
+        <LinearLayout
+            style="@style/Linear_Layout">
+
+            <TextView
+                android:id="@+id/movie_vote_average"
+                style="@style/Movie_Release_Date_and_Movie_Vote_Average" />
+
+            <TextView
+                android:id="@+id/movie_vote_average_content"
+                style="@style/Movie_Release_Date_Content_and_Movie_Vote_Average_Content"
+                android:text="@string/vote_average"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/movie_plot_synopsis"
+            style="@style/Movie_Plot_Synopsis"/>
+
+    </LinearLayout>
+
+</ScrollView>

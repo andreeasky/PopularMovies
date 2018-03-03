@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding_small">10dp</dimen>
+    <dimen name="padding_medium">14dp</dimen>
+    <dimen name="textSize_small">18sp</dimen>
+    <dimen name="textSize_medium">19sp</dimen>
+    <dimen name="textSize_title">26sp</dimen>
+    <dimen name="textView_width">170dp</dimen>
+    <dimen name="movie_poster_height">220dp</dimen>
+    <dimen name="textSize_news_section">17sp</dimen>
+    <dimen name="textSize_date">14sp</dimen>
+</resources>
