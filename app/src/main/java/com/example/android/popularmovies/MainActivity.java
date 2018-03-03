@@ -21,9 +21,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
     private RecyclerView moviesRecyclerView;
     ArrayList<Movie> movies = new ArrayList<>();
     Context context;
-    private String sortOrder;
-    private Movie selectedMovie;
-    private static final String SELECTED_MOVIE = "selected_movie";
+    private String sortOrder = "popular";
     static final String SORT_ORDER_MOVIE = "sort_order_movie";
 
     @Override
@@ -41,7 +39,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2);
         moviesRecyclerView.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
         movieAdapter.setOnClick(this); // Bind the listener
-        sortOrder = savedInstanceState.getString(SORT_ORDER_MOVIE);
+        if (savedInstanceState != null) {
+            sortOrder = savedInstanceState.getString(SORT_ORDER_MOVIE);
+        }
         new MoviesAsyncTask().execute(sortOrder);
 
     }
