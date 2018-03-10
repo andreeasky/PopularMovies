@@ -8,4 +8,5 @@
     <string name="vote_average">Vote Average</string>
     <string name="popular">popular</string>
     <string name="top_rated">top_rated</string>
+    <string name="sort_movies">Sort Movies</string>
 </resources>

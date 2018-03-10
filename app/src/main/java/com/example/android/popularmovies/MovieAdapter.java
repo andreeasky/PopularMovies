@@ -1,6 +1,7 @@
 package com.example.android.popularmovies;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
     private OnItemClicked onClick;
 
     public interface OnItemClicked {
-            void onItemClick(int position);
+
+        void onItemClick(int position);
     }
 
     ArrayList<Movie> movies = new ArrayList<>();

@@ -1,12 +1,26 @@
-<?xml version="1.0" encoding="utf-8"?>
-    <!--Create a menu in xml called main.xml-->
-    <menu xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
-        <group android:id="@+id/group"
-            android:checkableBehavior="single">
-            <item android:id="@+id/menu_sort_by_most_popular"
-                android:title="@string/action_sort_by_most_popular"/>
-            <item android:id="@+id/menu_sort_by_top_rated"
-                android:title="@string/action_sort_by_top_rated"/>
-        </group>
+<?xml version="1.0" encoding="utf-8"?><!--Create a menu in xml called main.xml-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_sort"
+        android:icon="@drawable/sort_variant"
+        android:orderInCategory="100"
+        android:title="@string/sort_movies"
+        app:showAsAction="always">
+
+        <menu>
+            <group
+                android:id="@+id/group"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/menu_sort_by_most_popular"
+                    android:title="@string/action_sort_by_most_popular" />
+                <item
+                    android:id="@+id/menu_sort_by_top_rated"
+                    android:title="@string/action_sort_by_top_rated" />
+            </group>
+        </menu>
+
+    </item>
 </menu>
