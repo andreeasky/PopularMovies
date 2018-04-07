@@ -1,13 +1,16 @@
 package com.example.android.popularmovies;
 
 import android.content.ActivityNotFoundException;
+import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -31,23 +34,20 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import static android.media.tv.TvContract.Programs.Genres.MOVIES;
 import static android.os.Build.ID;
+import static android.provider.CalendarContract.CalendarCache.URI;
 import static com.example.android.popularmovies.data.MoviesContract.CONTENT_AUTHORITY;
+import static com.example.android.popularmovies.data.MoviesContract.MoviesEntry.COLUMN_MOVIE_ID;
+import static com.example.android.popularmovies.data.MoviesContract.MoviesEntry.CONTENT_URI;
 
 public class MovieDetailsActivity extends AppCompatActivity implements TrailersAdapter.OnTrailerClicked {
 
     private static final String TAG = "MyActivity";
 
-    private static final String LOG_TAG = MoviesProvider.class.getSimpleName();
-    private static final UriMatcher sUriMatcher = buildUriMatcher();
-    private MoviesDBHelper moviesHelper;
-
-    // Code for the UriMatcher //////
-    private static final int MOVIES_WITH_ID = 110;
-    ////////
+    private static final String LOG_TAG = MovieDetailsActivity.class.getSimpleName();
 
     private Movie selectedMovie;
-    Context context;
     private ArrayList reviewsList = new ArrayList<>();
     private ArrayList<Trailers> trailersList = new ArrayList<>();
     private ReviewsAdapter reviewsAdapter;
@@ -59,13 +59,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
     ArrayList<Trailers> trailers = new ArrayList<>();
     private Reviews movieReviews;
     private Trailers movieTrailers;
-    int movieId;
-    Cursor moviesCursor;
-    String searchString;
-    // Defines a string to contain the selection clause
-    String selection = null;
-    // Initializes an array to contain selection arguments
-    String[] selectionArgs = {""};
+    private Boolean isFavorite;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +76,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
 
         if (selectedMovie != null) {
             ImageView moviePoster = (ImageView) findViewById( R.id.movie_poster );
-            Picasso.with( context ).load( selectedMovie.getMoviePoster() ).into( moviePoster );
+            Picasso.with( this ).load( selectedMovie.getMoviePoster() ).into( moviePoster );
             TextView movieTitle = (TextView) findViewById( R.id.movie_title );
             movieTitle.setText( selectedMovie.getMovieTitle() );
             TextView releaseDateText = (TextView) findViewById( R.id.movie_release_date );
@@ -136,7 +131,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
             TextView movieTrailersName = (TextView) findViewById( R.id.trailers_name );
             movieTrailersName.setText( movieTrailers.getMovieTrailersName() );
             Button trailersButton = (Button) findViewById( R.id.trailers_button );
-            Log.i( TAG, "MovieDetailsActivity.getView() — get item number " + trailers );
+            Log.i( LOG_TAG, "MovieDetailsActivity.getView() — get item number " + trailers );
 
         }
         Utils.buildURL( String.valueOf( selectedMovie.getMovieId() ) );
@@ -149,7 +144,39 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
         stringUri = QUERY_CONTENT_URI.toString();
         Log.i( TAG, stringUri );
 
+        ContentResolver contentResolver = getContentResolver();
+        contentResolver.query( QUERY_CONTENT_URI, null, null, null, null );
+        Cursor favoriteMovieCursor = getContentResolver().query(
+                MoviesContract.MoviesEntry.CONTENT_URI,  // The content URI of the movies table
+                null,                       // The columns to return for each row
+                null,                   // Either null, or the movie the user selected
+                null,                    // Either empty, or the string the user entered
+                null );
+        favoriteMovieCursor.getCount();
+
+
+        public void insertData() {
+            ContentValues movieValues = new ContentValues();
+            movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_ID, selectedMovie.getMovieId() );
+            movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_TITLE, selectedMovie.getMovieTitle() );
+            movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_IMAGE, selectedMovie.getMoviePoster() );
+
+
+        getContentResolver().insert(
+                MoviesContract.MoviesEntry.CONTENT_URI,   // the movie content URI
+                movieValues                          // the values to insert
+        );}
+
+        long deleteMovie = contentResolver.delete(
+                MoviesContract.MoviesEntry.CONTENT_URI, MoviesContract.MoviesEntry.COLUMN_MOVIE_ID + " = ? ", null);
+
+
+        ImageView favoriteMovie = (ImageView)findViewById( R.id.favorites );
+        isFavorite = true;
+
+
     }
+
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -223,72 +250,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
         }
     }
 
-    // A "projection" defines the columns that will be returned for each row
-    String[] favoriteMovies =
-            {
-                    MoviesContract.MoviesEntry.COLUMN_MOVIE_ID,    // Contract class constant for the _ID column name
-                    MoviesContract.MoviesEntry.COLUMN_MOVIE_IMAGE,   // Contract class constant for the image column name
-                    MoviesContract.MoviesEntry.COLUMN_MOVIE_TITLE  // Contract class constant for the title column name
-            };
-
-
-    private static UriMatcher buildUriMatcher() {
-        // Build a UriMatcher by adding a specific code to return based on a match
-        // It's common to use NO_MATCH as the code for this case.
-        final UriMatcher matcher = new UriMatcher( UriMatcher.NO_MATCH );
-        final String authority = MoviesContract.CONTENT_AUTHORITY;
-
-        // add a code for each type of URI you want
-        matcher.addURI( authority, MoviesContract.MoviesEntry.TABLE_MOVIES + "/#", MOVIES_WITH_ID );
-
-        return matcher;
-    }
-
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        Cursor moviesCursor;
-        switch (sUriMatcher.match( uri )) {
-
-            default: {
-                // By default, we assume a bad URI
-                throw new UnsupportedOperationException( "Unknown uri: " + uri );
-            }
-            // Individual movie based on Id selected
-            case MOVIES_WITH_ID: {
-                moviesCursor = moviesHelper.getReadableDatabase().query(
-                        MoviesContract.MoviesEntry.TABLE_MOVIES,
-                        projection,
-                        MoviesContract.MoviesEntry._ID + " = ?",
-                        new String[]{String.valueOf( ContentUris.parseId( uri ) )},
-                        null,
-                        null,
-                        sortOrder );
-            }
-        }
-
-        moviesCursor = getContentResolver().query(
-                MoviesContract.MoviesEntry.CONTENT_URI,  // The content URI of the movies table
-                favoriteMovies,                       // The columns to return for each row
-                selection,                   // Either null, or the word the user entered
-                selectionArgs,                    // Either empty, or the string the user entered
-                sortOrder );                       // The sort order for the returned rows
-        if (null == moviesCursor) {
-            /*
-             * Insert code here to handle the error. Be sure not to use the cursor! You may want to
-             * call android.util.Log.e() to log this error.
-             *
-             */
-            // If the Cursor is empty, the provider found no matches
-        } else if (moviesCursor.getCount() < 1) {
-
-            /*
-             * Insert code here to notify the user that the search was unsuccessful. This isn't necessarily
-             * an error. You may want to offer the user the option to insert a new row, or re-type the
-             * search term.
-             */
-
-        }
-        return moviesCursor;
-    }
 }
 
 
