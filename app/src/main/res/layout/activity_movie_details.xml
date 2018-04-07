@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+
+<android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:fillViewport="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/detail_screen_background_color"
     tools:context="com.example.android.popularmovies.MovieDetailsActivity">
 
@@ -20,9 +21,28 @@
             android:adjustViewBounds="true"
             android:contentDescription="@string/movie_poster"/>
 
+        <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/movie_title"
-            style="@style/Movie_Title" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textSize_title"
+            android:textColor="@color/color_title"
+            android:layout_gravity="center_horizontal"
+            android:padding="@dimen/padding_small"/>
+
+            <ImageView
+                android:id="@+id/favorites"
+                android:src="@drawable/star"
+                android:layout_height="41dp"
+                android:layout_width="match_parent"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginRight="14dp"/>
+        </LinearLayout>
 
         <LinearLayout
             style="@style/Linear_Layout">
@@ -56,6 +76,67 @@
             android:id="@+id/movie_plot_synopsis"
             style="@style/Movie_Plot_Synopsis"/>
 
+        <View
+            android:id="@+id/separator_line_trailers"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_margin="4dp"
+            android:background="@android:color/holo_purple"/>
+
+        <TextView
+            android:id="@+id/trailers_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="@dimen/padding_small"
+            android:gravity="center_horizontal"
+            android:textSize="19sp"
+            android:text="@string/movie_trailers_title"
+            android:textColor="@color/color_title"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_trailers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"/>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/separator_line_reviews"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_margin="4dp"
+            android:background="@android:color/holo_purple"/>
+
+        <TextView
+            android:id="@+id/reviews_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="@dimen/padding_small"
+            android:gravity="center_horizontal"
+            android:textSize="19sp"
+            android:text="@string/movie_reviews_title"
+            android:textColor="@color/color_title"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_reviews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"/>
+
+        </LinearLayout>
+
     </LinearLayout>
 
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>
+

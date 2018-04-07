@@ -19,6 +19,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements MovieAdapter.OnItemClicked {
 
     private ArrayList<Movie> moviesList = new ArrayList<>();
+    private ArrayList<Reviews> reviewsList = new ArrayList<>();
+    private ArrayList<Trailers> trailersList = new ArrayList<>();
     private MovieAdapter movieAdapter;
     private RecyclerView moviesRecyclerView;
     ArrayList<Movie> movies = new ArrayList<>();
@@ -134,6 +136,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
             case R.id.menu_sort_by_top_rated:
                 message = "Top Rated selected";
                 sortOrder = "top_rated";
+                new MoviesAsyncTask().execute(sortOrder);
+                break;
+            case R.id.menu_sort_by_favorites:
+                message = "Favorites selected";
+                sortOrder = "favorites";
                 new MoviesAsyncTask().execute(sortOrder);
                 break;
             default:

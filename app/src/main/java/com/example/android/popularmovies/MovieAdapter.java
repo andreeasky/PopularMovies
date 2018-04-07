@@ -21,6 +21,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
 
     private OnItemClicked onClick;
 
+    public void setOnClick() {
+    }
+
     public interface OnItemClicked {
 
         void onItemClick(int position);
