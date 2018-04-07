@@ -174,6 +174,17 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
         ImageView favoriteMovie = (ImageView)findViewById( R.id.favorites );
         isFavorite = true;
 
+        boolean isFavorite = getIntent().getBooleanExtra("ImageFavorite", false);
+        if(isFavorite){
+            ImageView favoriteMovie = (ImageView)findViewById( R.id.favorites );
+            favoriteMovie.setText("Add Me");
+
+
+        }else{
+            Button myButton = new Button(this);
+            myButton.setText("Remove Me");
+
+        }
 
     }
 

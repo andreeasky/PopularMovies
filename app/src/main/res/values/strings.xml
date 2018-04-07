@@ -14,5 +14,7 @@
     <string name="movie_reviews_title">Reviews:</string>
     <string name="movie_trailers_title">Trailers:</string>
     <string name="favorite_movie_image">Favorite Movie Image</string>
+    <string name="content_provider">Content Provider</string>
+
 
 </resources>

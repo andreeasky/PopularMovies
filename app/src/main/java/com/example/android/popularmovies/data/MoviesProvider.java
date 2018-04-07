@@ -20,7 +20,7 @@ public class MoviesProvider extends ContentProvider {
 
     // Codes for the UriMatcher //////
     private static final int MOVIES = 100;
-    private static final int MOVIES_WITH_ID = 110;
+    private static final int MOVIES_WITH_ID = 101;
     ////////
 
     private static UriMatcher buildUriMatcher(){
@@ -101,6 +101,17 @@ public class MoviesProvider extends ContentProvider {
         Uri returnUri;
         switch (sUriMatcher.match(uri)) {
             case MOVIES: {
+                long id = db.insert(MoviesContract.MoviesEntry.TABLE_MOVIES, null, values);
+                // insert unless it is already contained in the database
+                if (id > 0) {
+                    returnUri = MoviesContract.MoviesEntry.buildMoviesUri(id);
+                } else {
+                    throw new android.database.SQLException("Failed to insert row into: " + uri);
+                }
+                break;
+            }
+
+            case MOVIES_WITH_ID: {
                 long id = db.insert(MoviesContract.MoviesEntry.TABLE_MOVIES, null, values);
                 // insert unless it is already contained in the database
                 if (id > 0) {
