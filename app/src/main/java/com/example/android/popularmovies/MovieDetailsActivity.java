@@ -170,24 +170,18 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
         long deleteMovie = contentResolver.delete(
                 MoviesContract.MoviesEntry.CONTENT_URI, MoviesContract.MoviesEntry.COLUMN_MOVIE_ID + " = ? ", null);
 
-
         ImageView favoriteMovie = (ImageView)findViewById( R.id.favorites );
+
         isFavorite = true;
 
-        boolean isFavorite = getIntent().getBooleanExtra("ImageFavorite", false);
-        if(isFavorite){
-            ImageView favoriteMovie = (ImageView)findViewById( R.id.favorites );
-            favoriteMovie.setText("Add Me");
+        if (favoriteMovieCursor.getCount() == 0) {
 
-
-        }else{
-            Button myButton = new Button(this);
-            myButton.setText("Remove Me");
+            
+        } if (favoriteMovieCursor.getCount() == 1){
 
         }
 
     }
-
 
     @Override
     public boolean onSupportNavigateUp() {
