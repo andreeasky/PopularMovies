@@ -41,7 +41,9 @@
                 android:layout_height="41dp"
                 android:layout_width="match_parent"
                 android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_marginRight="14dp"/>
+                android:layout_marginRight="14dp"
+                android:onClick="onClickFavoriteMovie"
+                />
         </LinearLayout>
 
         <LinearLayout

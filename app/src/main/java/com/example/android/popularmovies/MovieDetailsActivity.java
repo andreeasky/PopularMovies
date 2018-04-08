@@ -155,18 +155,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
         favoriteMovieCursor.getCount();
 
 
-        public void insertData() {
-            ContentValues movieValues = new ContentValues();
-            movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_ID, selectedMovie.getMovieId() );
-            movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_TITLE, selectedMovie.getMovieTitle() );
-            movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_IMAGE, selectedMovie.getMoviePoster() );
-
-
-        getContentResolver().insert(
-                MoviesContract.MoviesEntry.CONTENT_URI,   // the movie content URI
-                movieValues                          // the values to insert
-        );}
-
         long deleteMovie = contentResolver.delete(
                 MoviesContract.MoviesEntry.CONTENT_URI, MoviesContract.MoviesEntry.COLUMN_MOVIE_ID + " = ? ", null);
 
@@ -176,7 +164,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
 
         if (favoriteMovieCursor.getCount() == 0) {
 
-            
+
         } if (favoriteMovieCursor.getCount() == 1){
 
         }
@@ -253,6 +241,26 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
         } catch (ActivityNotFoundException ex) {
             startActivity( webIntent );
         }
+    }
+
+    public void onClickFavoriteMovie (View view) {
+
+        ImageView favoriteMovie = (ImageView)findViewById( R.id.favorites );
+
+            ContentValues movieValues = new ContentValues();
+            movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_ID, selectedMovie.getMovieId() );
+            movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_TITLE, selectedMovie.getMovieTitle() );
+            movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_IMAGE, selectedMovie.getMoviePoster() );
+
+            Uri uriMovie = getContentResolver().insert(
+                    MoviesContract.MoviesEntry.CONTENT_URI,   // the movie content URI
+                    movieValues); // the values to insert
+
+            if (uriMovie != null)
+                Toast.makeText( getBaseContext(), uriMovie.toString(), Toast.LENGTH_LONG).show();
+
+            finish();
+
     }
 
 }
