@@ -123,6 +123,32 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
         Utils.buildURLReviews( String.valueOf( selectedMovie.getMovieId() ) );
         Utils.buildURLTrailers( String.valueOf( selectedMovie.getMovieId() ) );
 
+        Uri QUERY_CONTENT_URI = Uri.parse( CONTENT_AUTHORITY + "/" + MoviesContract.MoviesEntry.TABLE_MOVIES + "/" + selectedMovie.getMovieId() );
+        String stringUri;
+        stringUri = QUERY_CONTENT_URI.toString();
+        Log.i( TAG, stringUri );
+
+        ContentResolver contentResolver = getContentResolver();
+        contentResolver.query( QUERY_CONTENT_URI, null, null, null, null );
+        Cursor favoriteMovieCursor = getContentResolver().query(
+                    MoviesContract.MoviesEntry.CONTENT_URI,  // The content URI of the movies table
+                    null,                       // The columns to return for each row
+                    null,                   // Either null, or the movie the user selected
+                    null,                    // Either empty, or the string the user entered
+                    null );
+        favoriteMovieCursor.getCount();
+
+        final ImageButton favoriteMovie = (ImageButton)findViewById( R.id.button_favorite);
+
+        if (favoriteMovieCursor.getCount()  == 1 ) {
+                isFavorite = true;
+
+        } if ( favoriteMovieCursor.getCount() == 0) {
+                isFavorite = false;
+
+        }
+
+
     }
 
     @Override
@@ -197,48 +223,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
         }
     }
 
-    public void onClickFavoriteMovie (View view) {
-
-        Uri QUERY_CONTENT_URI = Uri.parse( CONTENT_AUTHORITY + "/" + MoviesContract.MoviesEntry.TABLE_MOVIES + "/" + selectedMovie.getMovieId() );
-        String stringUri;
-        stringUri = QUERY_CONTENT_URI.toString();
-        Log.i( TAG, stringUri );
-
-        ContentResolver contentResolver = getContentResolver();
-        contentResolver.query( QUERY_CONTENT_URI, null, null, null, null );
-        Cursor favoriteMovieCursor = getContentResolver().query(
-                MoviesContract.MoviesEntry.CONTENT_URI,  // The content URI of the movies table
-                null,                       // The columns to return for each row
-                null,                   // Either null, or the movie the user selected
-                null,                    // Either empty, or the string the user entered
-                null );
-        favoriteMovieCursor.getCount();
-
-
-        if (favoriteMovieCursor.getCount()  == 1 ) {
-                    isFavorite = true;
-
-        } if ( favoriteMovieCursor.getCount() == 0) {
-                    isFavorite = false;
-
-        }
-
-        final ImageButton favoriteMovie = (ImageButton)findViewById( R.id.button_favorite);
-
-        favoriteMovie.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            if (isFavorite = true){
-                favoriteMovie.setPressed(true);
-                insertData();
-            }if(isFavorite = false){
-                favoriteMovie.setPressed(false);
-                deleteData();
-                }
-            }
-        });
-
-    }
-
    public void insertData(){
 
        Uri uriMovie;
@@ -266,7 +250,25 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
                 MoviesContract.MoviesEntry.CONTENT_URI, MoviesContract.MoviesEntry.COLUMN_MOVIE_ID + " = ? ", null);
     }
 
-    }
+    //public void onClickFavoriteMovie (View view){
+
+    //final ImageButton favoriteMovie = (ImageButton)findViewById( R.id.button_favorite);
+
+            //favoriteMovie.setOnClickListener(new View.OnClickListener() {
+        //public void onClick(View v) {
+            //if (isFavorite = true){
+                //favoriteMovie.setPressed(true);
+                //insertData();
+            //}if(isFavorite = false){
+                //favoriteMovie.setPressed(false);
+                //deleteData();
+            //}
+        //}
+   // });
+
+}
+
+
 
 
 
