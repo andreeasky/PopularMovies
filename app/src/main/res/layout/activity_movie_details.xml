@@ -35,14 +35,16 @@
             android:layout_gravity="center_horizontal"
             android:padding="@dimen/padding_small"/>
 
-            <ImageView
-                android:id="@+id/favorites"
-                android:src="@drawable/star"
+            <ImageButton
+                android:id="@+id/button_favorite"
+                android:src="@drawable/button_favorite"
                 android:layout_height="41dp"
                 android:layout_width="match_parent"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_marginRight="14dp"
                 android:onClick="onClickFavoriteMovie"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/button_favorite"
                 />
         </LinearLayout>
 

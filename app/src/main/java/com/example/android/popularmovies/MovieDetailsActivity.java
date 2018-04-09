@@ -2,44 +2,29 @@ package com.example.android.popularmovies;
 
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.UriMatcher;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.provider.UserDictionary;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.popularmovies.data.MoviesContract;
-import com.example.android.popularmovies.data.MoviesDBHelper;
-import com.example.android.popularmovies.data.MoviesProvider;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import static android.media.tv.TvContract.Programs.Genres.MOVIES;
-import static android.os.Build.ID;
-import static android.provider.CalendarContract.CalendarCache.URI;
 import static com.example.android.popularmovies.data.MoviesContract.CONTENT_AUTHORITY;
-import static com.example.android.popularmovies.data.MoviesContract.MoviesEntry.COLUMN_MOVIE_ID;
-import static com.example.android.popularmovies.data.MoviesContract.MoviesEntry.CONTENT_URI;
 
 public class MovieDetailsActivity extends AppCompatActivity implements TrailersAdapter.OnTrailerClicked {
 
@@ -60,7 +45,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
     private Reviews movieReviews;
     private Trailers movieTrailers;
     private Boolean isFavorite;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,36 +123,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
         Utils.buildURLReviews( String.valueOf( selectedMovie.getMovieId() ) );
         Utils.buildURLTrailers( String.valueOf( selectedMovie.getMovieId() ) );
 
-        Uri QUERY_CONTENT_URI = Uri.parse( CONTENT_AUTHORITY + "/" + MoviesContract.MoviesEntry.TABLE_MOVIES + "/" + selectedMovie.getMovieId() );
-        String stringUri;
-        stringUri = QUERY_CONTENT_URI.toString();
-        Log.i( TAG, stringUri );
-
-        ContentResolver contentResolver = getContentResolver();
-        contentResolver.query( QUERY_CONTENT_URI, null, null, null, null );
-        Cursor favoriteMovieCursor = getContentResolver().query(
-                MoviesContract.MoviesEntry.CONTENT_URI,  // The content URI of the movies table
-                null,                       // The columns to return for each row
-                null,                   // Either null, or the movie the user selected
-                null,                    // Either empty, or the string the user entered
-                null );
-        favoriteMovieCursor.getCount();
-
-
-        long deleteMovie = contentResolver.delete(
-                MoviesContract.MoviesEntry.CONTENT_URI, MoviesContract.MoviesEntry.COLUMN_MOVIE_ID + " = ? ", null);
-
-        ImageView favoriteMovie = (ImageView)findViewById( R.id.favorites );
-
-        isFavorite = true;
-
-        if (favoriteMovieCursor.getCount() == 0) {
-
-
-        } if (favoriteMovieCursor.getCount() == 1){
-
-        }
-
     }
 
     @Override
@@ -245,25 +199,75 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
 
     public void onClickFavoriteMovie (View view) {
 
-        ImageView favoriteMovie = (ImageView)findViewById( R.id.favorites );
+        Uri QUERY_CONTENT_URI = Uri.parse( CONTENT_AUTHORITY + "/" + MoviesContract.MoviesEntry.TABLE_MOVIES + "/" + selectedMovie.getMovieId() );
+        String stringUri;
+        stringUri = QUERY_CONTENT_URI.toString();
+        Log.i( TAG, stringUri );
 
-            ContentValues movieValues = new ContentValues();
-            movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_ID, selectedMovie.getMovieId() );
-            movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_TITLE, selectedMovie.getMovieTitle() );
-            movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_IMAGE, selectedMovie.getMoviePoster() );
+        ContentResolver contentResolver = getContentResolver();
+        contentResolver.query( QUERY_CONTENT_URI, null, null, null, null );
+        Cursor favoriteMovieCursor = getContentResolver().query(
+                MoviesContract.MoviesEntry.CONTENT_URI,  // The content URI of the movies table
+                null,                       // The columns to return for each row
+                null,                   // Either null, or the movie the user selected
+                null,                    // Either empty, or the string the user entered
+                null );
+        favoriteMovieCursor.getCount();
 
-            Uri uriMovie = getContentResolver().insert(
-                    MoviesContract.MoviesEntry.CONTENT_URI,   // the movie content URI
-                    movieValues); // the values to insert
 
-            if (uriMovie != null)
-                Toast.makeText( getBaseContext(), uriMovie.toString(), Toast.LENGTH_LONG).show();
+        if (favoriteMovieCursor.getCount()  == 1 ) {
+                    isFavorite = true;
 
-            finish();
+        } if ( favoriteMovieCursor.getCount() == 0) {
+                    isFavorite = false;
+
+        }
+
+        final ImageButton favoriteMovie = (ImageButton)findViewById( R.id.button_favorite);
+
+        favoriteMovie.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            if (isFavorite = true){
+                favoriteMovie.setPressed(true);
+                insertData();
+            }if(isFavorite = false){
+                favoriteMovie.setPressed(false);
+                deleteData();
+                }
+            }
+        });
 
     }
 
-}
+   public void insertData(){
+
+       Uri uriMovie;
+
+        ContentValues movieValues = new ContentValues();
+            movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_ID, selectedMovie.getMovieId() );
+            movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_IMAGE, selectedMovie.getMoviePoster() );
+            movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_TITLE, selectedMovie.getMovieTitle() );
+
+        uriMovie = getContentResolver().insert(
+            MoviesContract.MoviesEntry.CONTENT_URI,   // the movie content URI
+            movieValues); // the values to insert
+
+            if (uriMovie != null)
+            Toast.makeText( getBaseContext(), uriMovie.toString(), Toast.LENGTH_LONG).show();
+
+           finish();
+    }
+
+    public void deleteData (){
+
+        ContentResolver contentResolver = getContentResolver();
+
+        long deleteMovie = contentResolver.delete(
+                MoviesContract.MoviesEntry.CONTENT_URI, MoviesContract.MoviesEntry.COLUMN_MOVIE_ID + " = ? ", null);
+    }
+
+    }
+
 
 
 
