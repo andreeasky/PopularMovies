@@ -142,10 +142,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
 
         if (favoriteMovieCursor.getCount()  == 1 ) {
                 isFavorite = true;
+                favoriteMovie.setPressed(true);
 
         } if ( favoriteMovieCursor.getCount() == 0) {
                 isFavorite = false;
-
+                favoriteMovie.setPressed(false);
         }
 
 
