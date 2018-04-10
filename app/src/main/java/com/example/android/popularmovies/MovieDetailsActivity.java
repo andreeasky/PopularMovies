@@ -129,9 +129,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
         Log.i( TAG, stringUri );
 
         ContentResolver contentResolver = getContentResolver();
-        contentResolver.query( QUERY_CONTENT_URI, null, null, null, null );
         Cursor favoriteMovieCursor = getContentResolver().query(
-                MoviesContract.MoviesEntry.CONTENT_URI,  // The content URI of the movies table
+                QUERY_CONTENT_URI,
                 null,                       // The columns to return for each row
                 null,                   // Either null, or the movie the user selected
                 null,                    // Either empty, or the string the user entered
@@ -142,13 +141,14 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
 
         if (favoriteMovieCursor != null) {
 
-            if (favoriteMovieCursor.getCount() > 0)
+            if (favoriteMovieCursor.getCount() > 0) {
                 isFavorite = true;
-            favoriteMovie.setPressed( true );
-        } else {
-            isFavorite = false;
-            favoriteMovie.setPressed( false );
-            Toast.makeText( getBaseContext(), "This movie is not a Favorite movie", Toast.LENGTH_LONG ).show();
+                favoriteMovie.setPressed( true );
+            } else {
+                isFavorite = false;
+                favoriteMovie.setPressed( false );
+                Toast.makeText( getBaseContext(), "This movie is not a Favorite movie", Toast.LENGTH_LONG ).show();
+            }
         }
 
     }
