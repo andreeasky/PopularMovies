@@ -138,11 +138,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
                 null );
         favoriteMovieCursor.getCount();
 
-        final ImageButton favoriteMovie = (ImageButton) findViewById( R.id.button_favorite );
-
         if (favoriteMovieCursor != null) {
 
-            if (favoriteMovieCursor.getCount() > 0) {
+            final ImageButton favoriteMovie = (ImageButton) findViewById( R.id.button_favorite );
+
+                if (favoriteMovieCursor.getCount() > 0) {
                 isFavorite = true;
                 favoriteMovie.setPressed( true );
             } else {
@@ -151,6 +151,23 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
                 Toast.makeText( getBaseContext(), "This movie is not a Favorite movie", Toast.LENGTH_LONG ).show();
             }
         }
+
+        final ImageButton favoriteMovie = (ImageButton) findViewById( R.id.button_favorite );
+
+        favoriteMovie.setOnClickListener( new View.OnClickListener() {
+
+            public void onClick(View v) {
+                if (isFavorite == false) {
+                    insertData();
+                    favoriteMovie.setPressed( true );
+
+                }
+                if (isFavorite == true) {
+                    deleteData();
+                    favoriteMovie.setPressed( false );
+                }
+            }
+        } );
 
     }
 
@@ -242,7 +259,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
         if (uriMovie != null)
             Toast.makeText( getBaseContext(), uriMovie.toString(), Toast.LENGTH_LONG ).show();
 
-        finish();
     }
 
     public void deleteData() {
@@ -253,25 +269,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
                 MoviesContract.MoviesEntry.CONTENT_URI, MoviesContract.MoviesEntry.COLUMN_MOVIE_ID + " = ? ", null );
     }
 
-    public void onClickFavoriteMovie(View view) {
-
-        final ImageButton favoriteMovie = (ImageButton) findViewById( R.id.button_favorite );
-
-        favoriteMovie.setOnClickListener( new View.OnClickListener() {
-            public void onClick(View v) {
-                if (isFavorite == false) {
-                    insertData();
-                    favoriteMovie.setPressed( true );
-
-                }
-                if (isFavorite == true) {
-                    deleteData();
-                    favoriteMovie.setPressed( false );
-                }
-            }
-        } );
-
-    }
 }
 
 
