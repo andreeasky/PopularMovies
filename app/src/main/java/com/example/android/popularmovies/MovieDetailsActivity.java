@@ -24,6 +24,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import static com.example.android.popularmovies.data.MoviesContract.BASE_CONTENT_URI;
 import static com.example.android.popularmovies.data.MoviesContract.CONTENT_AUTHORITY;
 
 public class MovieDetailsActivity extends AppCompatActivity implements TrailersAdapter.OnTrailerClicked {
@@ -123,7 +124,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
         Utils.buildURLReviews( String.valueOf( selectedMovie.getMovieId() ) );
         Utils.buildURLTrailers( String.valueOf( selectedMovie.getMovieId() ) );
 
-        Uri QUERY_CONTENT_URI = Uri.parse( CONTENT_AUTHORITY + "/" + MoviesContract.MoviesEntry.TABLE_MOVIES + "/" + selectedMovie.getMovieId() );
+        Uri QUERY_CONTENT_URI = Uri.parse( BASE_CONTENT_URI + "/" + MoviesContract.MoviesEntry.TABLE_MOVIES + "/" + selectedMovie.getMovieId() );
         String stringUri;
         stringUri = QUERY_CONTENT_URI.toString();
         Log.i( TAG, stringUri );
@@ -225,49 +226,51 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
         }
     }
 
-   public void insertData(){
+    public void insertData() {
 
-       Uri uriMovie;
+        Uri uriMovie;
 
         ContentValues movieValues = new ContentValues();
-            movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_ID, selectedMovie.getMovieId() );
-            movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_IMAGE, selectedMovie.getMoviePoster() );
-            movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_TITLE, selectedMovie.getMovieTitle() );
+        movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_ID, selectedMovie.getMovieId() );
+        movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_IMAGE, selectedMovie.getMoviePoster() );
+        movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_TITLE, selectedMovie.getMovieTitle() );
 
         uriMovie = getContentResolver().insert(
-            MoviesContract.MoviesEntry.CONTENT_URI,   // the movie content URI
-            movieValues); // the values to insert
+                MoviesContract.MoviesEntry.CONTENT_URI,   // the movie content URI
+                movieValues ); // the values to insert
 
-            if (uriMovie != null)
-            Toast.makeText( getBaseContext(), uriMovie.toString(), Toast.LENGTH_LONG).show();
+        if (uriMovie != null)
+            Toast.makeText( getBaseContext(), uriMovie.toString(), Toast.LENGTH_LONG ).show();
 
-           finish();
+        finish();
     }
 
-    public void deleteData (){
+    public void deleteData() {
 
         ContentResolver contentResolver = getContentResolver();
 
         long deleteMovie = contentResolver.delete(
-                MoviesContract.MoviesEntry.CONTENT_URI, MoviesContract.MoviesEntry.COLUMN_MOVIE_ID + " = ? ", null);
+                MoviesContract.MoviesEntry.CONTENT_URI, MoviesContract.MoviesEntry.COLUMN_MOVIE_ID + " = ? ", null );
     }
 
-    //public void onClickFavoriteMovie (View view){
+    public void onClickFavoriteMovie(View view) {
 
-    //final ImageButton favoriteMovie = (ImageButton)findViewById( R.id.button_favorite);
+        final ImageButton favoriteMovie = (ImageButton) findViewById( R.id.button_favorite );
 
-            //favoriteMovie.setOnClickListener(new View.OnClickListener() {
-        //public void onClick(View v) {
-            //if (isFavorite = true){
-                //favoriteMovie.setPressed(true);
-                //insertData();
-            //}if(isFavorite = false){
-                //favoriteMovie.setPressed(false);
-                //deleteData();
-            //}
-        //}
-   // });
+        favoriteMovie.setOnClickListener( new View.OnClickListener() {
+            public void onClick(View v) {
+                if (isFavorite == true) {
+                    favoriteMovie.setPressed( true );
+                    insertData();
+                }
+                if (isFavorite == false) {
+                    favoriteMovie.setPressed( false );
+                    deleteData();
+                }
+            }
+        } );
 
+    }
 }
 
 

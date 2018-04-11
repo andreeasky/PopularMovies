@@ -81,7 +81,7 @@ public class MoviesProvider extends ContentProvider {
                 moviesCursor = moviesHelper.getReadableDatabase().query(
                         MoviesContract.MoviesEntry.TABLE_MOVIES,
                         projection,
-                        MoviesContract.MoviesEntry._ID + " = ?",
+                        MoviesContract.MoviesEntry.COLUMN_MOVIE_ID + " = ?",
                         new String[] {String.valueOf( ContentUris.parseId(uri))},
                         null,
                         null,
@@ -112,7 +112,7 @@ public class MoviesProvider extends ContentProvider {
             }
 
             case MOVIES_WITH_ID: {
-                long id = db.insert(MoviesContract.MoviesEntry.TABLE_MOVIES, null, values);
+                long id = db.insert(MoviesContract.MoviesEntry.TABLE_MOVIES, MoviesContract.MoviesEntry.COLUMN_MOVIE_ID + " = ?", values);
                 // insert unless it is already contained in the database
                 if (id > 0) {
                     returnUri = MoviesContract.MoviesEntry.buildMoviesUri(id);
