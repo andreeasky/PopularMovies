@@ -157,12 +157,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
         favoriteMovie.setOnClickListener( new View.OnClickListener() {
 
             public void onClick(View v) {
-                if (isFavorite == true) {
+                if (isFavorite == false) {
                     insertData();
                     favoriteMovie.setPressed( true );
 
-                }
-                if (isFavorite == false) {
+                } else {
                     deleteData();
                     favoriteMovie.setPressed( false );
                 }
@@ -245,6 +244,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
 
     public void insertData() {
 
+        isFavorite = true;
+
         Uri uriMovie;
 
         ContentValues movieValues = new ContentValues();
@@ -262,6 +263,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
     }
 
     public void deleteData() {
+
+        isFavorite = false;
 
         ContentResolver contentResolver = getContentResolver();
 
