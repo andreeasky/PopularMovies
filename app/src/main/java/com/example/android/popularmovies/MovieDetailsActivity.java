@@ -157,12 +157,12 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
         favoriteMovie.setOnClickListener( new View.OnClickListener() {
 
             public void onClick(View v) {
-                if (isFavorite == false) {
+                if (isFavorite == true) {
                     insertData();
                     favoriteMovie.setPressed( true );
 
                 }
-                if (isFavorite == true) {
+                if (isFavorite == false) {
                     deleteData();
                     favoriteMovie.setPressed( false );
                 }
