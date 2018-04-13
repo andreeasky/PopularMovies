@@ -269,7 +269,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
         ContentResolver contentResolver = getContentResolver();
 
         long deleteMovie = contentResolver.delete(
-                MoviesContract.MoviesEntry.CONTENT_URI, MoviesContract.MoviesEntry.COLUMN_MOVIE_ID + " = ? ", null );
+                MoviesContract.MoviesEntry.CONTENT_URI, MoviesContract.MoviesEntry.COLUMN_MOVIE_ID + " = ? ", new String[]{String.valueOf( selectedMovie.getMovieId() )} );
+        Log.i("deleteMovie",""+deleteMovie);
     }
 
 }
