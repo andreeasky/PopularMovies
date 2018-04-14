@@ -144,10 +144,10 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
 
                 if (favoriteMovieCursor.getCount() > 0) {
                 isFavorite = true;
-                favoriteMovie.setPressed( true );
+                favoriteMovie.setActivated( true );
             } else {
                 isFavorite = false;
-                favoriteMovie.setPressed( false );
+                favoriteMovie.setActivated( false );
                 Toast.makeText( getBaseContext(), "This movie is not a Favorite movie", Toast.LENGTH_LONG ).show();
             }
         }
@@ -159,11 +159,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
             public void onClick(View v) {
                 if (isFavorite == false) {
                     insertData();
-                    favoriteMovie.setPressed( true );
+                    favoriteMovie.setActivated( true );
 
                 } else {
                     deleteData();
-                    favoriteMovie.setPressed( false );
+                    favoriteMovie.setActivated( false );
                 }
             }
         } );
