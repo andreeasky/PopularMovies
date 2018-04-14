@@ -1,9 +1,12 @@
 package com.example.android.popularmovies;
 
+import android.app.LoaderManager;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -27,7 +30,7 @@ import java.util.ArrayList;
 import static com.example.android.popularmovies.data.MoviesContract.BASE_CONTENT_URI;
 import static com.example.android.popularmovies.data.MoviesContract.CONTENT_AUTHORITY;
 
-public class MovieDetailsActivity extends AppCompatActivity implements TrailersAdapter.OnTrailerClicked {
+public class MovieDetailsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String TAG = "MyActivity";
 
@@ -46,6 +49,40 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
     private Reviews movieReviews;
     private Trailers movieTrailers;
     private Boolean isFavorite;
+
+    // Create a String array containing the names of the desired data columns from our ContentProvider
+    /*
+     * The columns of data that we are interested in displaying within our DetailActivity's
+     * weather display.
+     */
+    public static final String[] MOVIES_DETAILS = {
+            MoviesContract.MoviesEntry.COLUMN_MOVIE_ID,
+            MoviesContract.MoviesEntry.COLUMN_MOVIE_IMAGE,
+            MoviesContract.MoviesEntry.COLUMN_MOVIE_TITLE,
+    };
+
+    // Create constant int values representing each column name's position above
+    /*
+     * We store the indices of the values in the array of Strings above to more quickly be able
+     * to access the data from our query. If the order of the Strings above changes, these
+     * indices must be adjusted to match the order of the Strings.
+     */
+
+        public static final int INDEX_COLUMN_MOVIE_ID = 0;
+        public static final int INDEX_COLUMN_MOVIE_IMAGE = 1;
+        public static final int INDEX_COLUMN_MOVIE_TITLE = 2;
+
+    private static final int ID_MOVIES_LOADER = 30;
+
+    // Declare a private Uri field called movieUri
+    /* The URI that is used to access the chosen movie details */
+    private Uri movieUri;
+
+    // Declare views for the movie id, movie image and movie title
+    private int movieId;
+    private ImageView favoriteMovieImage;
+    private TextView favoriteMovieTitle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +112,18 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
             TextView plotSynopsis = (TextView) findViewById( R.id.movie_plot_synopsis );
             plotSynopsis.setText( selectedMovie.getPlotSynopsis() );
         }
+
+        favoriteMovieImage = (ImageView)findViewById( R.id.favorite_movie_image );
+        favoriteMovieTitle = (TextView)findViewById( R.id.favorite_movie_title );
+
+//      Use getData to get a reference to the URI passed with this Activity's Intent
+        movieUri = getIntent().getData();
+//      Throw a NullPointerException if that URI is null
+        if (movieUri == null) throw new NullPointerException("URI for MovieDetailsActivity cannot be null");
+
+//     Initialize the loader for MovieDetailsActivity
+        /* This connects our Activity into the loader lifecycle. */
+        getSupportLoaderManager().initLoader(ID_MOVIES_LOADER, null, this);
 
         movieReviewsRecyclerView = (RecyclerView) findViewById( R.id.recycler_view_reviews );
 
@@ -273,7 +322,92 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
         Log.i("deleteMovie",""+deleteMovie);
     }
 
+    // Override onCreateLoader
+    /**
+     * Creates and returns a CursorLoader that loads the data for our URI and stores it in a Cursor.
+     *
+     * @param loaderId The loader ID for which we need to create a loader
+     * @param loaderArgs Any arguments supplied by the caller
+     *
+     * @return A new Loader instance that is ready to start loading.
+     */
+    @Override
+    public Loader<Cursor> onCreateLoader(int loaderId, Bundle loaderArgs) {
+
+        switch (loaderId) {
+
+        // If the loader requested is our detail loader, return the appropriate CursorLoader
+            case ID_MOVIES_LOADER:
+
+                return new CursorLoader(this,
+                        movieUri,
+                        MOVIES_DETAILS,
+                        null,
+                        null,
+                        null);
+
+            default:
+                throw new RuntimeException("Loader Not Implemented: " + loaderId);
+        }
+    }
+
+    //  Override onLoadFinished
+    /**
+     * Runs on the main thread when a load is complete. If initLoader is called (we call it from
+     * onCreate in MovieDetailsActivity) and the LoaderManager already has completed a previous load
+     * for this Loader, onLoadFinished will be called immediately. Within onLoadFinished, we bind
+     * the data to our views so the user can see the details of the movie.
+     *
+     * @param loader The cursor loader that finished.
+     * @param movieData   The cursor that is being returned.
+     */
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor movieData) {
+
+        //      Check before doing anything that the Cursor has valid data
+        /*
+         * Before we bind the data to the UI that will display that data, we need to check the
+         * cursor to make sure we have the results that we are expecting. In order to do that, we
+         * check to make sure the cursor is not null and then we call moveToFirst on the cursor.
+         * Although it may not seem obvious at first, moveToFirst will return true if it contains
+         * a valid first row of data.
+         *
+         * If we have valid data, we want to continue on to bind that data to the UI. If we don't
+         * have any data to bind, we just return from this method.
+         */
+        boolean cursorHasValidData = false;
+        if (movieData != null && movieData.moveToFirst()) {
+            /* We have valid data, continue on to bind the data to the UI */
+            cursorHasValidData = true;
+        }
+
+        if (!cursorHasValidData) {
+            /* No data to display, simply return and do nothing */
+            return;
+        }
+
+        int movieId = movieData.getInt(INDEX_COLUMN_MOVIE_ID);
+
+        String favoriteMovieImage = movieData.getString( INDEX_COLUMN_MOVIE_IMAGE );
+
+        String favoriteMovieTitle = movieData.getString( INDEX_COLUMN_MOVIE_TITLE);
+
+    }
+
+    //  Override onLoaderReset
+    /**
+     * Called when a previously created loader is being reset, thus making its data unavailable.
+     * The application should at this point remove any references it has to the Loader's data.
+     * Since we don't store any of this cursor's data, there are no references we need to remove.
+     *
+     * @param loader The Loader that is being reset.
+     */
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+    }
 }
+
+
 
 
 
