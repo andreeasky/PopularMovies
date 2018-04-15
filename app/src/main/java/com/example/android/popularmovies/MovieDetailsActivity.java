@@ -1,16 +1,16 @@
 package com.example.android.popularmovies;
 
-import android.app.LoaderManager;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.CursorLoader;
 import android.content.Intent;
-import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,9 +28,8 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import static com.example.android.popularmovies.data.MoviesContract.BASE_CONTENT_URI;
-import static com.example.android.popularmovies.data.MoviesContract.CONTENT_AUTHORITY;
 
-public class MovieDetailsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class MovieDetailsActivity extends AppCompatActivity implements TrailersAdapter.OnTrailerClicked, LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String TAG = "MyActivity";
 
@@ -74,9 +73,10 @@ public class MovieDetailsActivity extends AppCompatActivity implements LoaderMan
 
     private static final int ID_MOVIES_LOADER = 30;
 
-    // Declare a private Uri field called movieUri
+    // Declare a private Uri field called QUERY_CONTENT_URI
     /* The URI that is used to access the chosen movie details */
-    private Uri movieUri;
+    Uri QUERY_CONTENT_URI;
+
 
     // Declare views for the movie id, movie image and movie title
     private int movieId;
@@ -117,9 +117,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements LoaderMan
         favoriteMovieTitle = (TextView)findViewById( R.id.favorite_movie_title );
 
 //      Use getData to get a reference to the URI passed with this Activity's Intent
-        movieUri = getIntent().getData();
-//      Throw a NullPointerException if that URI is null
-        if (movieUri == null) throw new NullPointerException("URI for MovieDetailsActivity cannot be null");
+        QUERY_CONTENT_URI = getIntent().getData();
 
 //     Initialize the loader for MovieDetailsActivity
         /* This connects our Activity into the loader lifecycle. */
@@ -173,7 +171,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements LoaderMan
         Utils.buildURLReviews( String.valueOf( selectedMovie.getMovieId() ) );
         Utils.buildURLTrailers( String.valueOf( selectedMovie.getMovieId() ) );
 
-        Uri QUERY_CONTENT_URI = Uri.parse( BASE_CONTENT_URI + "/" + MoviesContract.MoviesEntry.TABLE_MOVIES + "/" + selectedMovie.getMovieId() );
+        QUERY_CONTENT_URI = Uri.parse( BASE_CONTENT_URI + "/" + MoviesContract.MoviesEntry.TABLE_MOVIES + "/" + selectedMovie.getMovieId() );
+
         String stringUri;
         stringUri = QUERY_CONTENT_URI.toString();
         Log.i( TAG, stringUri );
@@ -191,7 +190,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements LoaderMan
 
             final ImageButton favoriteMovie = (ImageButton) findViewById( R.id.button_favorite );
 
-                if (favoriteMovieCursor.getCount() > 0) {
+            if (favoriteMovieCursor.getCount() > 0) {
                 isFavorite = true;
                 favoriteMovie.setActivated( true );
             } else {
@@ -339,8 +338,10 @@ public class MovieDetailsActivity extends AppCompatActivity implements LoaderMan
         // If the loader requested is our detail loader, return the appropriate CursorLoader
             case ID_MOVIES_LOADER:
 
+                Uri QUERY_CONTENT_URI = Uri.parse( BASE_CONTENT_URI + "/" + MoviesContract.MoviesEntry.TABLE_MOVIES + "/" + selectedMovie.getMovieId() );
+
                 return new CursorLoader(this,
-                        movieUri,
+                        QUERY_CONTENT_URI,
                         MOVIES_DETAILS,
                         null,
                         null,
@@ -350,6 +351,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements LoaderMan
                 throw new RuntimeException("Loader Not Implemented: " + loaderId);
         }
     }
+
+    /*
+     * Defines the callback that CursorLoader calls
+     * when it's finished its query
+     */
 
     //  Override onLoadFinished
     /**
@@ -392,7 +398,20 @@ public class MovieDetailsActivity extends AppCompatActivity implements LoaderMan
 
         String favoriteMovieTitle = movieData.getString( INDEX_COLUMN_MOVIE_TITLE);
 
+
+        final ImageButton favoriteMovie = (ImageButton) findViewById( R.id.button_favorite );
+
+                if (isFavorite == false) {
+                    insertData();
+                    favoriteMovie.setActivated( true );
+
+                } else {
+                    deleteData();
+                    favoriteMovie.setActivated( false );
+
+                }
     }
+
 
     //  Override onLoaderReset
     /**
