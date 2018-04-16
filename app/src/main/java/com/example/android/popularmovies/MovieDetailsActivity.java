@@ -171,35 +171,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
         Utils.buildURLReviews( String.valueOf( selectedMovie.getMovieId() ) );
         Utils.buildURLTrailers( String.valueOf( selectedMovie.getMovieId() ) );
 
-        Uri QUERY_CONTENT_URI = Uri.parse( BASE_CONTENT_URI + "/" + MoviesContract.MoviesEntry.TABLE_MOVIES + "/" + selectedMovie.getMovieId() );
-
-        String stringUri;
-        stringUri = QUERY_CONTENT_URI.toString();
-        Log.i( TAG, stringUri );
-
-        ContentResolver contentResolver = getContentResolver();
-        Cursor favoriteMovieCursor = getContentResolver().query(
-                QUERY_CONTENT_URI,
-                null,                       // The columns to return for each row
-                null,                   // Either null, or the movie the user selected
-                null,                    // Either empty, or the string the user entered
-                null );
-        favoriteMovieCursor.getCount();
-
-        if (favoriteMovieCursor != null) {
-
-            final ImageButton favoriteMovie = (ImageButton) findViewById( R.id.button_favorite );
-
-            if (favoriteMovieCursor.getCount() > 0) {
-                isFavorite = true;
-                favoriteMovie.setActivated( true );
-            } else {
-                isFavorite = false;
-                favoriteMovie.setActivated( false );
-                Toast.makeText( getBaseContext(), "This movie is not a Favorite movie", Toast.LENGTH_LONG ).show();
-            }
-        }
-
         final ImageButton favoriteMovie = (ImageButton) findViewById( R.id.button_favorite );
 
         favoriteMovie.setOnClickListener( new View.OnClickListener() {
@@ -399,6 +370,10 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
         String favoriteMovieTitle = movieData.getString( INDEX_COLUMN_MOVIE_TITLE);
 
         Uri QUERY_CONTENT_URI = Uri.parse( BASE_CONTENT_URI + "/" + MoviesContract.MoviesEntry.TABLE_MOVIES + "/" + selectedMovie.getMovieId() );
+
+        String stringUri;
+        stringUri = QUERY_CONTENT_URI.toString();
+        Log.i( TAG, stringUri );
 
         ContentResolver contentResolver = getContentResolver();
         Cursor favoriteMovieCursor = getContentResolver().query(
