@@ -363,15 +363,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
             return;
         }
 
-        int movieId = movieData.getInt(INDEX_COLUMN_MOVIE_ID);
-
-        String favoriteMovieImage = movieData.getString( INDEX_COLUMN_MOVIE_IMAGE );
-
-        String favoriteMovieTitle = movieData.getString( INDEX_COLUMN_MOVIE_TITLE);
-
-        movieData.getCount();
-
-        if (movieData != null) {
+        if (cursorHasValidData) {
 
             final ImageButton favoriteMovie = (ImageButton) findViewById( R.id.button_favorite );
 
