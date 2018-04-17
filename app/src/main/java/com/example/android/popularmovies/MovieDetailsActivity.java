@@ -47,7 +47,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
     ArrayList<Trailers> trailers = new ArrayList<>();
     private Reviews movieReviews;
     private Trailers movieTrailers;
-    private Boolean isFavorite;
+    private boolean isFavorite;
 
     // Create a String array containing the names of the desired data columns from our ContentProvider
     /*
@@ -369,26 +369,13 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
 
         String favoriteMovieTitle = movieData.getString( INDEX_COLUMN_MOVIE_TITLE);
 
-        Uri QUERY_CONTENT_URI = Uri.parse( BASE_CONTENT_URI + "/" + MoviesContract.MoviesEntry.TABLE_MOVIES + "/" + selectedMovie.getMovieId() );
+        movieData.getCount();
 
-        String stringUri;
-        stringUri = QUERY_CONTENT_URI.toString();
-        Log.i( TAG, stringUri );
-
-        ContentResolver contentResolver = getContentResolver();
-        Cursor favoriteMovieCursor = getContentResolver().query(
-                QUERY_CONTENT_URI,
-                null,                       // The columns to return for each row
-                null,                   // Either null, or the movie the user selected
-                null,                    // Either empty, or the string the user entered
-                null );
-        favoriteMovieCursor.getCount();
-
-        if (favoriteMovieCursor != null) {
+        if (movieData != null) {
 
             final ImageButton favoriteMovie = (ImageButton) findViewById( R.id.button_favorite );
 
-            if (favoriteMovieCursor.getCount() > 0) {
+            if (movieData.getCount() > 0) {
                 isFavorite = true;
                 favoriteMovie.setActivated( true );
             } else {
