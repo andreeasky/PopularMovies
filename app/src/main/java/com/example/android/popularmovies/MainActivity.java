@@ -25,14 +25,21 @@ import com.example.android.popularmovies.data.MoviesContract;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.android.popularmovies.data.MoviesContract.MoviesEntry.COLUMN_MOVIE_ID;
+import static com.example.android.popularmovies.data.MoviesContract.MoviesEntry.COLUMN_MOVIE_IMAGE;
+import static com.example.android.popularmovies.data.MoviesContract.MoviesEntry.COLUMN_MOVIE_TITLE;
+
 public class MainActivity extends AppCompatActivity implements MovieAdapter.OnItemClicked, LoaderManager.LoaderCallbacks<Cursor>{
 
     private ArrayList<Movie> moviesList = new ArrayList<>();
     private ArrayList<Reviews> reviewsList = new ArrayList<>();
     private ArrayList<Trailers> trailersList = new ArrayList<>();
+    private ArrayList<FavoriteMovies> favoritesList = new ArrayList<>();
     private MovieAdapter movieAdapter;
+    private MovieAdapter favoriteAdapter;
     private RecyclerView moviesRecyclerView;
     ArrayList<Movie> movies = new ArrayList<>();
+    ArrayList<FavoriteMovies> favoriteMovies = new ArrayList<>();
     Context context;
     private String sortOrder = "popular";
     static final String SORT_ORDER_MOVIE = "sort_order_movie";
@@ -41,9 +48,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
     private ProgressBar moviesLoadingIndicator;
 
     public static final String[] MOVIES_DETAILS = {
-            MoviesContract.MoviesEntry.COLUMN_MOVIE_ID,
-            MoviesContract.MoviesEntry.COLUMN_MOVIE_IMAGE,
-            MoviesContract.MoviesEntry.COLUMN_MOVIE_TITLE,
+            COLUMN_MOVIE_ID,
+            COLUMN_MOVIE_IMAGE,
+            COLUMN_MOVIE_TITLE,
     };
 
     // Create constant int values representing each column name's position above
@@ -117,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
                 /* URI for all rows of data in the movies table */
                 Uri movieQueryUri =  MoviesContract.MoviesEntry.CONTENT_URI;
                 /* Sort order: Ascending by movie */
-                String sortOrder = MoviesContract.MoviesEntry.COLUMN_MOVIE_ID + "";
+                String sortOrder = COLUMN_MOVIE_ID + "";
 
                 return new CursorLoader(this,
                         movieQueryUri,
@@ -146,6 +153,16 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
 
         // If the Cursor's size is not equal to 0, call showMoviesDataView
         if (data.getCount() != 0) showMoviesDataView();
+
+        while(data.moveToNext()) {
+            String favoriteMovieId = data.getString(data.getColumnIndex(COLUMN_MOVIE_ID));
+            String favoriteMovieImage = data.getString(data.getColumnIndex(COLUMN_MOVIE_IMAGE));
+            String favoriteMovieTitle = data.getString(data.getColumnIndex(COLUMN_MOVIE_TITLE));
+            MovieObject favoriteMovies = new MovieObject( favoriteMovieId , favoriteMovieImage, favoriteMovieTitle);
+            favoritesList.add(favoriteMovies);
+        }
+        
+        moviesRecyclerView.setAdapter(favoriteMovies );
     }
 
     /**
@@ -205,7 +222,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
             moviesRecyclerView.getLayoutManager().onRestoreInstanceState(layoutManagerSavedState);
         }
     }
-
 
     @Override
     public void onItemClick(int position) {
@@ -268,9 +284,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
                 break;
             case R.id.menu_sort_by_favorites:
                 message = "Favorites selected";
-                sortOrder = "favorites";
-                new MoviesAsyncTask().execute(sortOrder);
-                break;
+                movieAdapter.notifyDataSetChanged();
+                getLoaderManager().getLoader(ID_MOVIES_LOADER).forceLoad();
+                return true;
             default:
                 return super.onContextItemSelected(item);
         }

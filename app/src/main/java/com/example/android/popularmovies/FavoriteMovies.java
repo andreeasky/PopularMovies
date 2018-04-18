@@ -10,6 +10,9 @@ import android.os.Parcelable;
 public class FavoriteMovies implements Parcelable {
 
     /** Property movieImage */
+    String movieId;
+
+    /** Property movieImage */
     String movieImage;
 
     /** Property movieName */
@@ -17,8 +20,8 @@ public class FavoriteMovies implements Parcelable {
 
     String MOVIE_IMAGE_BASE_URL = "http://img.youtube.com/vi/";
 
-    public FavoriteMovies(String movieImage, String movieTitle){
-
+    public FavoriteMovies(String  movieId, String movieImage, String movieTitle){
+        this.movieId = movieId;
         this.movieImage = movieImage;
         this.movieTitle = movieTitle;
     }
@@ -31,10 +34,25 @@ public class FavoriteMovies implements Parcelable {
     }
 
     public FavoriteMovies(Parcel in) {
-
+        movieId = in.readString();
         movieImage = in.readString();
         movieTitle = in.readString();
 
+    }
+
+
+    /**
+     * Gets the Movie Id
+     */
+    public String getMovieId() {
+        return this.movieId;
+    }
+
+    /**
+     * Sets the movieTitle
+     */
+    public void setMovieId() {
+        this.movieTitle = movieId;
     }
 
     /**
@@ -71,7 +89,7 @@ public class FavoriteMovies implements Parcelable {
     }
 
     public void writeToParcel(Parcel dest, int flags) {
-
+        dest.writeString(movieId);
         dest.writeString(movieTitle);
         dest.writeString(movieImage);
 
