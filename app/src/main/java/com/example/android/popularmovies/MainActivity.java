@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
             MovieObject favoriteMovies = new MovieObject( favoriteMovieId , favoriteMovieImage, favoriteMovieTitle);
             favoritesList.add(favoriteMovies);
         }
-        
+
         moviesRecyclerView.setAdapter(favoriteMovies );
     }
 
@@ -284,8 +284,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
                 break;
             case R.id.menu_sort_by_favorites:
                 message = "Favorites selected";
-                movieAdapter.notifyDataSetChanged();
-                getLoaderManager().getLoader(ID_MOVIES_LOADER).forceLoad();
+                getSupportLoaderManager().initLoader(ID_MOVIES_LOADER , null, this);
                 return true;
             default:
                 return super.onContextItemSelected(item);
