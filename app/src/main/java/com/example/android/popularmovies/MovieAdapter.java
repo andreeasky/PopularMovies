@@ -14,6 +14,8 @@ import java.util.ArrayList;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapterViewHolder> {
 
+    private ArrayList<FavoriteMovies> favoritesList = new ArrayList<>();
+
     public MovieAdapter( ArrayList<Movie> movies, Context context ) {
         this.movies = movies;
         this.context = context;
@@ -80,5 +82,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
     public void setOnClick(OnItemClicked onClick)
     {
         this.onClick=onClick;
+    }
+
+    public ArrayList<FavoriteMovies> getArrayList(ArrayList<FavoriteMovies> favoritesList){
+        return this.favoritesList;
     }
 }

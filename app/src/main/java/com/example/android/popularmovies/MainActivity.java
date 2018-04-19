@@ -144,8 +144,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
-        // Call movieAdapter's swapCursor method and pass in the new Cursor
-        movieAdapter.swapCursor(data);
         // If moviePosition equals RecyclerView.NO_POSITION, set it to 0
         if (moviePosition == RecyclerView.NO_POSITION) moviePosition = 0;
         // Smooth scroll the RecyclerView to moviePosition
@@ -158,11 +156,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
             String favoriteMovieId = data.getString(data.getColumnIndex(COLUMN_MOVIE_ID));
             String favoriteMovieImage = data.getString(data.getColumnIndex(COLUMN_MOVIE_IMAGE));
             String favoriteMovieTitle = data.getString(data.getColumnIndex(COLUMN_MOVIE_TITLE));
-            MovieObject favoriteMovies = new MovieObject( favoriteMovieId , favoriteMovieImage, favoriteMovieTitle);
+            FavoriteMovies favoriteMovies = new FavoriteMovies( favoriteMovieId , favoriteMovieImage, favoriteMovieTitle);
             favoritesList.add(favoriteMovies);
         }
 
-        moviesRecyclerView.setAdapter(favoriteMovies );
+        movieAdapter.getArrayList( favoritesList);
     }
 
     /**
@@ -173,12 +171,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
      */
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        // Call moviesAdapter's swapCursor method and pass in null
-        /*
-         * Since this Loader's data is now invalid, we need to clear the Adapter that is
-         * displaying the data.
-         */
-        movieAdapter.swapCursor(null);
 
     }
 
