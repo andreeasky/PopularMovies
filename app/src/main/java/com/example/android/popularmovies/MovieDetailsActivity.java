@@ -56,20 +56,12 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
      */
     public static final String[] MOVIES_DETAILS = {
             MoviesContract.MoviesEntry.COLUMN_MOVIE_ID,
-            MoviesContract.MoviesEntry.COLUMN_MOVIE_IMAGE,
             MoviesContract.MoviesEntry.COLUMN_MOVIE_TITLE,
+            MoviesContract.MoviesEntry.COLUMN_MOVIE_RELEASE_DATE,
+            MoviesContract.MoviesEntry.COLUMN_MOVIE_IMAGE,
+            MoviesContract.MoviesEntry.COLUMN_MOVIE_VOTE_AVERAGE,
+            MoviesContract.MoviesEntry.COLUMN_MOVIE_PLOT_SYNOPSIS,
     };
-
-    // Create constant int values representing each column name's position above
-    /*
-     * We store the indices of the values in the array of Strings above to more quickly be able
-     * to access the data from our query. If the order of the Strings above changes, these
-     * indices must be adjusted to match the order of the Strings.
-     */
-
-        public static final int INDEX_COLUMN_MOVIE_ID = 0;
-        public static final int INDEX_COLUMN_MOVIE_IMAGE = 1;
-        public static final int INDEX_COLUMN_MOVIE_TITLE = 2;
 
     private static final int ID_MOVIES_LOADER = 30;
 
@@ -269,8 +261,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
 
         ContentValues movieValues = new ContentValues();
         movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_ID, selectedMovie.getMovieId() );
-        movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_IMAGE, selectedMovie.getMoviePoster() );
         movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_TITLE, selectedMovie.getMovieTitle() );
+        movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_RELEASE_DATE, selectedMovie.getReleaseDate());
+        movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_IMAGE, selectedMovie.getMoviePoster() );
+        movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_VOTE_AVERAGE, selectedMovie.getVoteAverage() );
+        movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_PLOT_SYNOPSIS, selectedMovie.getPlotSynopsis() );
 
         uriMovie = getContentResolver().insert(
                 MoviesContract.MoviesEntry.CONTENT_URI,   // the movie content URI

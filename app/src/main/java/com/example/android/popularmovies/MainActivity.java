@@ -27,19 +27,19 @@ import java.util.List;
 
 import static com.example.android.popularmovies.data.MoviesContract.MoviesEntry.COLUMN_MOVIE_ID;
 import static com.example.android.popularmovies.data.MoviesContract.MoviesEntry.COLUMN_MOVIE_IMAGE;
+import static com.example.android.popularmovies.data.MoviesContract.MoviesEntry.COLUMN_MOVIE_PLOT_SYNOPSIS;
+import static com.example.android.popularmovies.data.MoviesContract.MoviesEntry.COLUMN_MOVIE_RELEASE_DATE;
 import static com.example.android.popularmovies.data.MoviesContract.MoviesEntry.COLUMN_MOVIE_TITLE;
+import static com.example.android.popularmovies.data.MoviesContract.MoviesEntry.COLUMN_MOVIE_VOTE_AVERAGE;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.OnItemClicked, LoaderManager.LoaderCallbacks<Cursor>{
 
     private ArrayList<Movie> moviesList = new ArrayList<>();
     private ArrayList<Reviews> reviewsList = new ArrayList<>();
     private ArrayList<Trailers> trailersList = new ArrayList<>();
-    private ArrayList<FavoriteMovies> favoritesList = new ArrayList<>();
     private MovieAdapter movieAdapter;
-    private MovieAdapter favoriteAdapter;
     private RecyclerView moviesRecyclerView;
     ArrayList<Movie> movies = new ArrayList<>();
-    ArrayList<FavoriteMovies> favoriteMovies = new ArrayList<>();
     Context context;
     private String sortOrder = "popular";
     static final String SORT_ORDER_MOVIE = "sort_order_movie";
@@ -148,14 +148,17 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
         moviesRecyclerView.smoothScrollToPosition(moviePosition);
 
         while(data.moveToNext()) {
-            String favoriteMovieId = data.getString(data.getColumnIndex(COLUMN_MOVIE_ID));
-            String favoriteMovieImage = data.getString(data.getColumnIndex(COLUMN_MOVIE_IMAGE));
-            String favoriteMovieTitle = data.getString(data.getColumnIndex(COLUMN_MOVIE_TITLE));
-            FavoriteMovies favoriteMovies = new FavoriteMovies( favoriteMovieId , favoriteMovieImage, favoriteMovieTitle);
-            favoritesList.add(favoriteMovies);
-        }
+            int movieId = data.getInt(data.getColumnIndex(COLUMN_MOVIE_ID));
+            String movieTitle = data.getString(data.getColumnIndex(COLUMN_MOVIE_TITLE));
+            String releaseDate = data.getString(data.getColumnIndex(COLUMN_MOVIE_RELEASE_DATE));
+            String moviePoster = data.getString(data.getColumnIndex(COLUMN_MOVIE_IMAGE));
+            double voteAverage = data.getDouble( data.getColumnIndex(COLUMN_MOVIE_VOTE_AVERAGE));
+            String plotSynopsis = data.getString(data.getColumnIndex( COLUMN_MOVIE_PLOT_SYNOPSIS ));
 
-        movieAdapter.getArrayList( favoritesList);
+            Movie movies  = new Movie(movieId, movieTitle, releaseDate, moviePoster, voteAverage, plotSynopsis );
+            moviesList.add(movies);
+        }
+        movieAdapter.addAll(movies);
     }
 
     /**

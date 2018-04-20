@@ -21,8 +21,12 @@ public class MoviesContract {
         public static final String TABLE_MOVIES = "popular_movies";
         // columns
         public static final String COLUMN_MOVIE_ID = "id";
-        public static final String COLUMN_MOVIE_IMAGE = "movie_image";
         public static final String COLUMN_MOVIE_TITLE = "movie_title";
+        public static final String COLUMN_MOVIE_RELEASE_DATE = "movie_release_date";
+        public static final String COLUMN_MOVIE_IMAGE = "movie_image";
+        public static final String COLUMN_MOVIE_VOTE_AVERAGE = "movie_vote_average";
+        public static final String COLUMN_MOVIE_PLOT_SYNOPSIS = "movie_plot_synopsis";
+
 
         // create content uri
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
