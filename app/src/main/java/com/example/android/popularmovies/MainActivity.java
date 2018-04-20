@@ -90,8 +90,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
         moviesRecyclerView.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
         movieAdapter.setOnClick(this); // Bind the listener
 
-        showLoading();
-
         getSupportLoaderManager().initLoader(ID_MOVIES_LOADER , null, this);
 
         if (savedInstanceState != null) {
@@ -149,9 +147,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
         // Smooth scroll the RecyclerView to moviePosition
         moviesRecyclerView.smoothScrollToPosition(moviePosition);
 
-        // If the Cursor's size is not equal to 0, call showMoviesDataView
-        if (data.getCount() != 0) showMoviesDataView();
-
         while(data.moveToNext()) {
             String favoriteMovieId = data.getString(data.getColumnIndex(COLUMN_MOVIE_ID));
             String favoriteMovieImage = data.getString(data.getColumnIndex(COLUMN_MOVIE_IMAGE));
@@ -173,36 +168,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
     public void onLoaderReset(Loader<Cursor> loader) {
 
     }
-
-    /**
-     * This method will make the View for the movies data visible and hide the error message and
-     * loading indicator.
-     * <p>
-     * Since it is okay to redundantly set the visibility of a View, we don't need to check whether
-     * each view is currently visible or invisible.
-     */
-    private void showMoviesDataView() {
-        /* First, hide the loading indicator */
-        moviesLoadingIndicator.setVisibility( View.INVISIBLE);
-        /* Finally, make sure the movies data is visible */
-        moviesRecyclerView.setVisibility( View.VISIBLE);
-    }
-
-    // A method called showLoading that shows the loading indicator and hides the data
-    /**
-     * This method will make the loading indicator visible and hide the movies View and error
-     * message.
-     * <p>
-     * Since it is okay to redundantly set the visibility of a View, we don't need to check whether
-     * each view is currently visible or invisible.
-     */
-    private void showLoading() {
-        /* Then, hide the weather data */
-        moviesRecyclerView.setVisibility(View.INVISIBLE);
-        /* Finally, show the loading indicator */
-        moviesLoadingIndicator.setVisibility(View.VISIBLE);
-    }
-
 
     public void setOnClick(List movies) {
         movieAdapter.setOnClick( (MovieAdapter.OnItemClicked) movies );
