@@ -29,11 +29,11 @@ public class MoviesDBHelper extends SQLiteOpenHelper {
                 " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 MoviesContract.MoviesEntry.COLUMN_MOVIE_TITLE + " TEXT NOT NULL," +
                 MoviesContract.MoviesEntry.COLUMN_MOVIE_RELEASE_DATE +
-                " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                " INTEGER NOT NULL, " +
                 MoviesContract.MoviesEntry.COLUMN_MOVIE_IMAGE +
                 " INTEGER NOT NULL, " +
                 MoviesContract.MoviesEntry.COLUMN_MOVIE_VOTE_AVERAGE +
-                " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                " INTEGER NOT NULL, " +
                 MoviesContract.MoviesEntry.COLUMN_MOVIE_PLOT_SYNOPSIS + " TEXT NOT NULL);";
 
 
