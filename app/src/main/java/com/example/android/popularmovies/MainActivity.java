@@ -151,6 +151,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
         moviesRecyclerView.smoothScrollToPosition(moviePosition);
 
         data.moveToFirst();
+        moviesList.clear();
         while(data.moveToNext()) {
             int movieId = data.getInt(data.getColumnIndex(COLUMN_MOVIE_ID));
             String movieTitle = data.getString(data.getColumnIndex(COLUMN_MOVIE_TITLE));
@@ -161,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
 
             Movie movies  = new Movie(movieId, movieTitle, releaseDate, moviePoster, voteAverage, plotSynopsis );
             moviesList.add(movies);
+
         }
         movieAdapter.addAll( moviesList);
     }
