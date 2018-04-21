@@ -49,8 +49,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
 
     public static final String[] MOVIES_DETAILS = {
             COLUMN_MOVIE_ID,
-            COLUMN_MOVIE_IMAGE,
             COLUMN_MOVIE_TITLE,
+            COLUMN_MOVIE_RELEASE_DATE,
+            COLUMN_MOVIE_IMAGE,
+            COLUMN_MOVIE_VOTE_AVERAGE,
+            COLUMN_MOVIE_PLOT_SYNOPSIS
     };
 
     // Create constant int values representing each column name's position above
@@ -147,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
         // Smooth scroll the RecyclerView to moviePosition
         moviesRecyclerView.smoothScrollToPosition(moviePosition);
 
+        data.moveToFirst();
         while(data.moveToNext()) {
             int movieId = data.getInt(data.getColumnIndex(COLUMN_MOVIE_ID));
             String movieTitle = data.getString(data.getColumnIndex(COLUMN_MOVIE_TITLE));
@@ -158,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
             Movie movies  = new Movie(movieId, movieTitle, releaseDate, moviePoster, voteAverage, plotSynopsis );
             moviesList.add(movies);
         }
-        movieAdapter.addAll(movies);
+        movieAdapter.addAll( moviesList);
     }
 
     /**
