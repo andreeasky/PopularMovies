@@ -93,8 +93,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
         moviesRecyclerView.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
         movieAdapter.setOnClick(this); // Bind the listener
 
-        getSupportLoaderManager().initLoader(ID_MOVIES_LOADER , null, this);
-
         if (savedInstanceState != null) {
             sortOrder = savedInstanceState.getString(SORT_ORDER_MOVIE); }
         new MoviesAsyncTask().execute(sortOrder);

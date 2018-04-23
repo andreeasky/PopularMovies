@@ -35,6 +35,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
 
     private static final String LOG_TAG = MovieDetailsActivity.class.getSimpleName();
 
+    String MOVIE_IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w185";
+
     private Movie selectedMovie;
     private ArrayList reviewsList = new ArrayList<>();
     private ArrayList<Trailers> trailersList = new ArrayList<>();
@@ -263,7 +265,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
         movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_ID, selectedMovie.getMovieId() );
         movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_TITLE, selectedMovie.getMovieTitle() );
         movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_RELEASE_DATE, selectedMovie.getReleaseDate());
-        movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_IMAGE, selectedMovie.getMoviePoster() );
+        movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_IMAGE, selectedMovie.getPosterPath() );
         movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_VOTE_AVERAGE, selectedMovie.getVoteAverage() );
         movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_PLOT_SYNOPSIS, selectedMovie.getPlotSynopsis() );
 

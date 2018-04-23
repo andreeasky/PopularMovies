@@ -3,6 +3,7 @@ package com.example.android.popularmovies;
 import android.content.Context;
 import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapterViewHolder> {
+
+    private ArrayList<FavoriteMovies> favoritesList = new ArrayList<>();
 
     public MovieAdapter( ArrayList<Movie> movies, Context context ) {
         this.movies = movies;
@@ -58,6 +61,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
     public void onBindViewHolder(MovieAdapterViewHolder movieAdapterViewHolder, final int position) {
         Movie movie = movies.get(position);
         Picasso.with(context).load(movie.getMoviePoster()).into(movieAdapterViewHolder.movieImageView);
+        Log.i("Movie poster",""+ movie.getMoviePoster());
         movieAdapterViewHolder.movieImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

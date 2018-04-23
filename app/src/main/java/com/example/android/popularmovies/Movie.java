@@ -111,6 +111,10 @@ public class Movie implements Parcelable{
         this.moviePoster = moviePoster;
     }
 
+    public String getPosterPath() {
+        return this.moviePoster;
+    }
+
     /**
      * Gets the voteAverage
      */
