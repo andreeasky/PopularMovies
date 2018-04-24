@@ -74,6 +74,7 @@ public class MoviesProvider extends ContentProvider {
                         null,
                         null,
                         sortOrder);
+                moviesCursor.setNotificationUri(getContext().getContentResolver(),uri);
                 return moviesCursor;
             }
             // Individual movie based on Id selected
@@ -86,6 +87,7 @@ public class MoviesProvider extends ContentProvider {
                         null,
                         null,
                         sortOrder);
+                moviesCursor.setNotificationUri(getContext().getContentResolver(),uri);
                 return moviesCursor;
             }
             default:{
