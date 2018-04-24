@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
     static final String SORT_ORDER_MOVIE = "sort_order_movie";
     static final String RECYCLER_VIEW_LAYOUT = "recycler_view_layout";
     private Parcelable layoutManagerSavedState;
-    private ProgressBar moviesLoadingIndicator;
 
     public static final String[] MOVIES_DETAILS = {
             COLUMN_MOVIE_ID,
@@ -148,9 +147,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
         // Smooth scroll the RecyclerView to moviePosition
         moviesRecyclerView.smoothScrollToPosition(moviePosition);
 
-        data.moveToFirst();
         moviesList.clear();
-        while(data.moveToNext()) {
+        for (data.moveToFirst(); !data.isAfterLast(); data.moveToNext()) {
             int movieId = data.getInt(data.getColumnIndex(COLUMN_MOVIE_ID));
             String movieTitle = data.getString(data.getColumnIndex(COLUMN_MOVIE_TITLE));
             String releaseDate = data.getString(data.getColumnIndex(COLUMN_MOVIE_RELEASE_DATE));
