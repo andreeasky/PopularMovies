@@ -107,9 +107,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
             plotSynopsis.setText( selectedMovie.getPlotSynopsis() );
         }
 
-        favoriteMovieImage = (ImageView)findViewById( R.id.favorite_movie_image );
-        favoriteMovieTitle = (TextView)findViewById( R.id.favorite_movie_title );
-
 //      Use getData to get a reference to the URI passed with this Activity's Intent
         QUERY_CONTENT_URI = getIntent().getData();
 

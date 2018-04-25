@@ -53,16 +53,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
             COLUMN_MOVIE_PLOT_SYNOPSIS
     };
 
-    // Create constant int values representing each column name's position above
-    /*
-     * We store the indices of the values in the array of Strings above to more quickly be able to
-     * access the data from our query. If the order of the Strings above changes, these indices
-     * must be adjusted to match the order of the Strings.
-     */
-    public static final int INDEX_COLUMN_MOVIE_ID = 0;
-    public static final int INDEX_COLUMN_MOVIE_IMAGE = 1;
-    public static final int INDEX_COLUMN_MOVIE_TITLE = 2;
-
     /*
      * This ID will be used to identify the Loader responsible for loading the movies. In
      * some cases, one Activity can deal with many Loaders. However, in our case, there is only one.
