@@ -16,8 +16,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.android.popularmovies.data.MoviesContract;
@@ -94,7 +92,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
 
         if (savedInstanceState != null) {
             sortOrder = savedInstanceState.getString(SORT_ORDER_MOVIE); }
-        new MoviesAsyncTask().execute(sortOrder);
+
+            if (sortOrder == "favorites") { getSupportLoaderManager().initLoader(ID_MOVIES_LOADER , null, this);}
+            else {
+            new MoviesAsyncTask().execute(sortOrder);}
 
     }
 
@@ -246,6 +247,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
                 break;
             case R.id.menu_sort_by_favorites:
                 message = "Favorites selected";
+                sortOrder = "favorites";
                 getSupportLoaderManager().initLoader(ID_MOVIES_LOADER , null, this);
                 return true;
             default:
