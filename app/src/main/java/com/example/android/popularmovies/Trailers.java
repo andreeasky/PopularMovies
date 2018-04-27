@@ -3,10 +3,6 @@ package com.example.android.popularmovies;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by User on 11.03.2018.
- */
-
 public class Trailers implements Parcelable{
 
         /** Property movieTrailersId */
@@ -71,7 +67,6 @@ public class Trailers implements Parcelable{
         this.movieTrailersId = movieTrailersId;
     }
 
-
         /**
         * Gets the movieTrailersKey
         */
@@ -96,7 +91,6 @@ public class Trailers implements Parcelable{
         public void setMovieTrailersImage() {
         this.movieTrailersImage = movieTrailersImage;
     }
-
 
         /**
          * Gets the movieTrailersName
@@ -126,7 +120,6 @@ public class Trailers implements Parcelable{
         this.movieTrailersSize = movieTrailersSize;
     }
 
-
         /**
          * Gets the movieTrailersType
          */
@@ -140,7 +133,6 @@ public class Trailers implements Parcelable{
         public void setMovieTrailersType() {
         this.movieTrailersType = movieTrailersType;
     }
-
 
         public int describeContents() {
             return 0;

@@ -3,10 +3,6 @@ package com.example.android.popularmovies;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by User on 11.03.2018.
- */
-
 public class Reviews implements Parcelable{
 
         /** Property movieReviews ID */

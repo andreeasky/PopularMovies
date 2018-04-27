@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="padding_separator_line">2dp</dimen>
+    <dimen name="margin_small">4dp</dimen>
+    <dimen name="padding_xx_small">6dp</dimen>
     <dimen name="padding_x_small">8dp</dimen>
-    <dimen name="padding_small">10dp</dimen>
-    <dimen name="padding_medium">14dp</dimen>
+    <dimen name="padding_and_margin_small">10dp</dimen>
+    <dimen name="padding_x_medium">12dp</dimen>
+    <dimen name="padding_and_margin_medium">14dp</dimen>
+    <dimen name="textSize_trailers_name">15sp</dimen>
+    <dimen name="textSize_reviews_content">16sp</dimen>
+    <dimen name="textSize_x_small">17sp</dimen>
     <dimen name="textSize_small">18sp</dimen>
     <dimen name="textSize_medium">19sp</dimen>
     <dimen name="textSize_title">26sp</dimen>
+    <dimen name="button_favorite_height">41dp</dimen>
     <dimen name="textView_width">170dp</dimen>
     <dimen name="movie_poster_height">220dp</dimen>
     <dimen name="textSize_news_section">17sp</dimen>

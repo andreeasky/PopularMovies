@@ -6,6 +6,7 @@
     <color name="color_title">#ef41cc</color>
     <color name="color_movie_release_date_and_color_movie_vote_average">#e042db</color>
     <color name="color_movie_release_date_content_and_color_movie_vote_average_content">#390098</color>
-    <color name="color_movie_plot_synopsis">#390098</color>
+    <color name="color_movie_plot_synopsis_and_reviews_content">#390098</color>
+    <color name="color_text_trailers_name_and_trailers_button">#390098</color>
     <color name="detail_screen_background_color">#e2bbff</color>
 </resources>

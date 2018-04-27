@@ -23,6 +23,7 @@ public class Movie implements Parcelable{
     /** Property plotSynopsis */
     String plotSynopsis;
 
+    /** Property MOVIE_IMAGE_BASE_URL */
     String MOVIE_IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w185";
 
     /**
@@ -111,6 +112,9 @@ public class Movie implements Parcelable{
         this.moviePoster = moviePoster;
     }
 
+    /**
+     * Gets the moviePoster
+     */
     public String getPosterPath() {
         return this.moviePoster;
     }
@@ -148,6 +152,7 @@ public class Movie implements Parcelable{
     }
 
     public void writeToParcel(Parcel dest, int flags) {
+
         dest.writeInt(movieId);
         dest.writeString(movieTitle);
         dest.writeString(releaseDate);

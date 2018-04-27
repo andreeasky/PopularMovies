@@ -8,10 +8,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
-/**
- * Created by User on 31.03.2018.
- */
-
 public class MoviesProvider extends ContentProvider {
 
     private static final String LOG_TAG = MoviesProvider.class.getSimpleName();
@@ -29,7 +25,7 @@ public class MoviesProvider extends ContentProvider {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = MoviesContract.CONTENT_AUTHORITY;
 
-        // add a code for each type of URI you want
+        // add a code for each type of URI
         matcher.addURI(authority, MoviesContract.MoviesEntry.TABLE_MOVIES , MOVIES);
         matcher.addURI(authority, MoviesContract.MoviesEntry.TABLE_MOVIES + "/#", MOVIES_WITH_ID);
 

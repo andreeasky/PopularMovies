@@ -35,8 +35,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
 
     private static final String LOG_TAG = MovieDetailsActivity.class.getSimpleName();
 
-    String MOVIE_IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w185";
-
     private Movie selectedMovie;
     private ArrayList reviewsList = new ArrayList<>();
     private ArrayList<Trailers> trailersList = new ArrayList<>();
@@ -51,10 +49,9 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
     private Trailers movieTrailers;
     private boolean isFavorite;
 
-    // Create a String array containing the names of the desired data columns from our ContentProvider
+    // Create a String array containing the names of the desired data columns from the ContentProvider
     /*
-     * The columns of data that we are interested in displaying within our DetailActivity's
-     * weather display.
+     * The columns of data that we are interested in displaying within the MovieDetailsActivity
      */
     public static final String[] MOVIES_DETAILS = {
             MoviesContract.MoviesEntry.COLUMN_MOVIE_ID,
@@ -70,13 +67,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
     // Declare a private Uri field called QUERY_CONTENT_URI
     /* The URI that is used to access the chosen movie details */
     Uri QUERY_CONTENT_URI;
-
-
-    // Declare views for the movie id, movie image and movie title
-    private int movieId;
-    private ImageView favoriteMovieImage;
-    private TextView favoriteMovieTitle;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,11 +97,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
             plotSynopsis.setText( selectedMovie.getPlotSynopsis() );
         }
 
-//      Use getData to get a reference to the URI passed with this Activity's Intent
+        // Use getData to get a reference to the URI passed with this Activity's Intent
         QUERY_CONTENT_URI = getIntent().getData();
 
-//     Initialize the loader for MovieDetailsActivity
-        /* This connects our Activity into the loader lifecycle. */
+        // Initialize the loader for MovieDetailsActivity
+        /* This connects the MovieDetailsActivity into the loader lifecycle. */
         getSupportLoaderManager().initLoader(ID_MOVIES_LOADER, null, this);
 
         movieReviewsRecyclerView = (RecyclerView) findViewById( R.id.recycler_view_reviews );
@@ -177,7 +167,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
                 }
             }
         } );
-
     }
 
     @Override
@@ -198,7 +187,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
 
             return resultReviews;
         }
-
 
         @Override
         protected void onPostExecute(ArrayList<Reviews> reviews) {
@@ -267,7 +255,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
         movieValues.put( MoviesContract.MoviesEntry.COLUMN_MOVIE_PLOT_SYNOPSIS, selectedMovie.getPlotSynopsis() );
 
         uriMovie = getContentResolver().insert(
-                MoviesContract.MoviesEntry.CONTENT_URI,   // the movie content URI
+                MoviesContract.MoviesEntry.CONTENT_URI, // the movie content URI
                 movieValues ); // the values to insert
 
         if (uriMovie != null)
@@ -290,7 +278,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
     /**
      * Creates and returns a CursorLoader that loads the data for our URI and stores it in a Cursor.
      *
-     * @param loaderId The loader ID for which we need to create a loader
+     * @param loaderId The loader ID for which is needed to create a loader
      * @param loaderArgs Any arguments supplied by the caller
      *
      * @return A new Loader instance that is ready to start loading.
@@ -300,7 +288,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
 
         switch (loaderId) {
 
-        // If the loader requested is our detail loader, return the appropriate CursorLoader
+        // If the loader requested is the detail loader, return the appropriate CursorLoader
             case ID_MOVIES_LOADER:
 
                 Uri QUERY_CONTENT_URI = Uri.parse( BASE_CONTENT_URI + "/" + MoviesContract.MoviesEntry.TABLE_MOVIES + "/" + selectedMovie.getMovieId() );
@@ -318,31 +306,14 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
     }
 
     /*
-     * Defines the callback that CursorLoader calls
-     * when it's finished its query
-     */
-
-    //  Override onLoadFinished
-    /**
-     * Runs on the main thread when a load is complete. If initLoader is called (we call it from
-     * onCreate in MovieDetailsActivity) and the LoaderManager already has completed a previous load
-     * for this Loader, onLoadFinished will be called immediately. Within onLoadFinished, we bind
-     * the data to our views so the user can see the details of the movie.
-     *
      * @param loader The cursor loader that finished.
-     * @param movieData   The cursor that is being returned.
+     * @param movieData The cursor that is being returned.
      */
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor movieData) {
 
-        //      Check before doing anything that the Cursor has valid data
+        // Check before doing anything that the Cursor has valid data
         /*
-         * Before we bind the data to the UI that will display that data, we need to check the
-         * cursor to make sure we have the results that we are expecting. In order to do that, we
-         * check to make sure the cursor is not null and then we call moveToFirst on the cursor.
-         * Although it may not seem obvious at first, moveToFirst will return true if it contains
-         * a valid first row of data.
-         *
          * If we have valid data, we want to continue on to bind that data to the UI. If we don't
          * have any data to bind, we just return from this method.
          */
@@ -376,7 +347,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
     /**
      * Called when a previously created loader is being reset, thus making its data unavailable.
      * The application should at this point remove any references it has to the Loader's data.
-     * Since we don't store any of this cursor's data, there are no references we need to remove.
+     * In this application there aren't stored any of this cursor's data and there are no references that need to be removed.
      *
      * @param loader The Loader that is being reset.
      */

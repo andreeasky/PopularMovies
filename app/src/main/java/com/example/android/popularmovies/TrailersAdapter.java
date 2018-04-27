@@ -1,8 +1,6 @@
 package com.example.android.popularmovies;
 
 import android.content.Context;
-import android.media.Image;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,13 +13,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-/**
- * Created by User on 11.03.2018.
- */
-
 public class TrailersAdapter extends RecyclerView.Adapter<com.example.android.popularmovies.TrailersAdapter.TrailersAdapterViewHolder> {
 
-    ArrayList<Trailers> trailers = new ArrayList<>();
+    ArrayList<Trailers> trailers;
 
     Context context;
 

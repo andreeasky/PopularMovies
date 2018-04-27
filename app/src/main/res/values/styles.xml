@@ -15,21 +15,31 @@
     </style>
 
     <style name="Movie_Title" >
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/textSize_title</item>
         <item name="android:textColor">@color/color_title</item>
         <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:padding">@dimen/padding_small</item>
+        <item name="android:padding">@dimen/padding_and_margin_small</item>
+    </style>
+
+    <style name="Trailers_Title_and_Reviews_Title" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/padding_x_medium</item>
+        <item name="android:layout_marginBottom">@dimen/padding_and_margin_small</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">@dimen/textSize_medium</item>
+        <item name="android:textColor">@color/color_title</item>
     </style>
 
     <style name="Linear_Layout" >
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:paddingTop">@dimen/padding_medium</item>
-        <item name="android:paddingLeft">@dimen/padding_medium</item>
-        <item name="android:paddingRight">@dimen/padding_medium</item>
+        <item name="android:paddingTop">@dimen/padding_and_margin_medium</item>
+        <item name="android:paddingLeft">@dimen/padding_and_margin_medium</item>
+        <item name="android:paddingRight">@dimen/padding_and_margin_medium</item>
     </style>
 
     <style name="Movie_Release_Date_and_Movie_Vote_Average" >
@@ -50,9 +60,70 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/textSize_small</item>
-        <item name="android:textColor">@color/color_movie_plot_synopsis</item>
-        <item name="android:layout_marginTop">@dimen/padding_medium</item>
-        <item name="android:padding">@dimen/padding_medium</item>
+        <item name="android:textColor">@color/color_movie_plot_synopsis_and_reviews_content</item>
+        <item name="android:layout_marginTop">@dimen/padding_and_margin_medium</item>
+        <item name="android:padding">@dimen/padding_and_margin_medium</item>
+    </style>
+
+    <style name="Separator_Line" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/padding_separator_line</item>
+        <item name="android:layout_margin">@dimen/margin_small</item>
+        <item name="android:background">@android:color/holo_purple</item>
+    </style>
+
+    <style name="Button_Favorite" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/button_favorite_height</item>
+        <item name="android:layout_gravity">center_vertical|center_horizontal</item>
+        <item name="android:layout_marginRight">@dimen/padding_and_margin_medium</item>
+    </style>
+
+    <style name="Reviews_Author" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/padding_and_margin_medium</item>
+        <item name="android:paddingLeft">@dimen/padding_and_margin_medium</item>
+        <item name="android:paddingRight">@dimen/padding_and_margin_medium</item>
+        <item name="android:paddingBottom">@dimen/padding_xx_small</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textSize">@dimen/textSize_x_small</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="Reviews_Content" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/padding_and_margin_medium</item>
+        <item name="android:textSize">@dimen/textSize_reviews_content</item>
+        <item name="android:textColor">@color/color_movie_plot_synopsis_and_reviews_content</item>
+    </style>
+
+    <style name="Trailers_Image" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="Trailers_Name" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/padding_and_margin_medium</item>
+        <item name="android:layout_marginLeft">@dimen/padding_and_margin_small</item>
+        <item name="android:layout_marginStart">@dimen/padding_and_margin_small</item>
+        <item name="android:layout_marginBottom">@dimen/margin_small</item>
+        <item name="android:textSize">@dimen/textSize_trailers_name</item>
+        <item name="android:textColor">@color/color_text_trailers_name_and_trailers_button</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
+    <style name="Trailers_Button" >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/padding_and_margin_medium</item>
+        <item name="android:layout_margin">@dimen/padding_x_small</item>
+        <item name="android:textColor">@color/color_text_trailers_name_and_trailers_button</item>
+        <item name="android:layout_gravity">center_horizontal</item>
     </style>
 
 </resources>
