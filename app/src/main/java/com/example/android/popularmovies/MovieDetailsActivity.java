@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import static android.view.View.Y;
 import static com.example.android.popularmovies.data.MoviesContract.BASE_CONTENT_URI;
 
 public class MovieDetailsActivity extends AppCompatActivity implements TrailersAdapter.OnTrailerClicked, LoaderManager.LoaderCallbacks<Cursor> {
@@ -48,7 +50,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
     private Reviews movieReviews;
     private Trailers movieTrailers;
     private boolean isFavorite;
-
+    
     // Create a String array containing the names of the desired data columns from the ContentProvider
     /*
      * The columns of data that we are interested in displaying within the MovieDetailsActivity
@@ -167,12 +169,35 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
                 }
             }
         } );
+
+
     }
 
     @Override
     public boolean onSupportNavigateUp() {
         finish();
         return true;
+    }
+
+    //save value on onSaveInstanceState
+    protected void onSaveInstanceState(Bundle outState) {
+        View scrollView = findViewById( R.id.scroll_view );
+        super.onSaveInstanceState(outState);
+        outState.putIntArray("SCROLL_POSITION",
+                new int[]{ scrollView.getScrollX(), scrollView.getScrollY()});
+    }
+
+    //Restore them on onRestoreInstanceState
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        final View scrollView = findViewById( R.id.scroll_view );
+        super.onRestoreInstanceState(savedInstanceState);
+        final int[] position = savedInstanceState.getIntArray("SCROLL_POSITION");
+        if(position != null)
+            scrollView.post(new Runnable() {
+                public void run() {
+                    scrollView.scrollTo(position[0], position[1]);
+                }
+            });
     }
 
     private class MoviesAsyncTaskReviews extends AsyncTask<String, Void, ArrayList<Reviews>> {
