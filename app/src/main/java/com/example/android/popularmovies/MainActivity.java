@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
 
         // set a GridLayoutManager with default vertical orientation and 2 columns
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2);
+        gridLayoutManager.scrollToPosition(0);
         moviesRecyclerView.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
         movieAdapter.setOnClick(this); // Bind the listener
 

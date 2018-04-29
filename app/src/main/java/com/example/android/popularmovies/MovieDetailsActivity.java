@@ -50,7 +50,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
     private Reviews movieReviews;
     private Trailers movieTrailers;
     private boolean isFavorite;
-    
+
     // Create a String array containing the names of the desired data columns from the ContentProvider
     /*
      * The columns of data that we are interested in displaying within the MovieDetailsActivity
