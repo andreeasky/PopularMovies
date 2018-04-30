@@ -193,11 +193,12 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
         super.onRestoreInstanceState(savedInstanceState);
         final int[] position = savedInstanceState.getIntArray("SCROLL_POSITION");
         if(position != null)
-            scrollView.post(new Runnable() {
+            scrollView.postDelayed(new Runnable() {
+                @Override
                 public void run() {
                     scrollView.scrollTo(position[0], position[1]);
                 }
-            });
+            }, 300);
     }
 
     private class MoviesAsyncTaskReviews extends AsyncTask<String, Void, ArrayList<Reviews>> {
