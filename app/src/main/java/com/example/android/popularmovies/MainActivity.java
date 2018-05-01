@@ -224,16 +224,19 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
                 message = "Most Popular selected";
                 sortOrder = "popular";
                 new MoviesAsyncTask().execute(sortOrder);
+                layoutManagerSavedState = null;
                 break;
             case R.id.menu_sort_by_top_rated:
                 message = "Top Rated selected";
                 sortOrder = "top_rated";
                 new MoviesAsyncTask().execute(sortOrder);
+                layoutManagerSavedState = null;
                 break;
             case R.id.menu_sort_by_favorites:
                 message = "Favorites selected";
                 sortOrder = "favorites";
                 getSupportLoaderManager().initLoader(ID_MOVIES_LOADER , null, this);
+                layoutManagerSavedState = null;
                 return true;
             default:
                 return super.onContextItemSelected(item);
