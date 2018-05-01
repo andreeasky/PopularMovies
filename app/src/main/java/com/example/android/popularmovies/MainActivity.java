@@ -79,7 +79,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
             if (sortOrder == "favorites") { getSupportLoaderManager().initLoader(ID_MOVIES_LOADER , null, this);}
             else {
             new MoviesAsyncTask().execute(sortOrder);}
-
     }
 
     @Override
@@ -219,24 +218,22 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnIt
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2);
         moviesRecyclerView.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
         gridLayoutManager.scrollToPosition (0);
+        layoutManagerSavedState = null;
         switch(item.getItemId()){
             case R.id.menu_sort_by_most_popular:
                 message = "Most Popular selected";
                 sortOrder = "popular";
                 new MoviesAsyncTask().execute(sortOrder);
-                layoutManagerSavedState = null;
                 break;
             case R.id.menu_sort_by_top_rated:
                 message = "Top Rated selected";
                 sortOrder = "top_rated";
                 new MoviesAsyncTask().execute(sortOrder);
-                layoutManagerSavedState = null;
                 break;
             case R.id.menu_sort_by_favorites:
                 message = "Favorites selected";
                 sortOrder = "favorites";
                 getSupportLoaderManager().initLoader(ID_MOVIES_LOADER , null, this);
-                layoutManagerSavedState = null;
                 return true;
             default:
                 return super.onContextItemSelected(item);

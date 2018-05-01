@@ -19,7 +19,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +27,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import static android.view.View.Y;
 import static com.example.android.popularmovies.data.MoviesContract.BASE_CONTENT_URI;
 
 public class MovieDetailsActivity extends AppCompatActivity implements TrailersAdapter.OnTrailerClicked, LoaderManager.LoaderCallbacks<Cursor> {
@@ -179,7 +177,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
         return true;
     }
 
-    //save value on onSaveInstanceState
     protected void onSaveInstanceState(Bundle outState) {
         View scrollView = findViewById( R.id.scroll_view );
         super.onSaveInstanceState(outState);
@@ -187,7 +184,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailersA
                 new int[]{ scrollView.getScrollX(), scrollView.getScrollY()});
     }
 
-    //Restore them on onRestoreInstanceState
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         final View scrollView = findViewById( R.id.scroll_view );
         super.onRestoreInstanceState(savedInstanceState);
